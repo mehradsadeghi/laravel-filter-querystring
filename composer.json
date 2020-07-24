@@ -1,6 +1,6 @@
 {
-  "name": "mehradsadeghi/laravel-filer-querystring",
-  "description": "Filter your queries based on url query string parameters like a breeze",
+  "name": "mehradsadeghi/laravel-filter-querystring",
+  "description": "Filter your queries based on url query string parameters like a breeze.",
   "keywords": [
     "query",
     "query-string",
@@ -9,7 +9,7 @@
     "filter-querystring",
     "filter-query-string"
   ],
-  "homepage": "https://github.com/mehradsadeghi/filter-querystring",
+  "homepage": "https://github.com/mehradsadeghi/laravel-filter-querystring",
   "license": "MIT",
   "type": "library",
   "authors": [
