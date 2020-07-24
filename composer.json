@@ -1,0 +1,47 @@
+{
+  "name": "mehradsadeghi/laravel-filer-querystring",
+  "description": "Filter your queries based on url query string parameters like a breeze",
+  "keywords": [
+    "query",
+    "query-string",
+    "querystring",
+    "filter",
+    "filter-querystring",
+    "filter-query-string"
+  ],
+  "homepage": "https://github.com/mehradsadeghi/filter-querystring",
+  "license": "MIT",
+  "type": "library",
+  "authors": [
+    {
+      "name": "Mehrad Sadeghi",
+      "email": "mehrad177@gmail.com",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": "^7.1",
+    "laravel/framework": "5.*|6.*|7.*"
+  },
+  "require-dev": {
+    "orchestra/testbench": "^4.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Mehradsadeghi\\FilterQueryString\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "classmap": [
+      "database"
+    ],
+    "psr-4": {
+      "Mehradsadeghi\\FilterQueryString\\Models\\": "models/",
+      "Mehradsadeghi\\FilterQueryString\\Tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "test": "vendor/bin/phpunit",
+    "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+  }
+}
