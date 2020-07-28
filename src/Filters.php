@@ -25,6 +25,7 @@ trait Filters {
     // features:
     // mapping different names from what we use in query string
 
+    // multiple orderby in one line
     // WHERE person = 'lake' OR person = 'roe';
     // WHERE person IN ('lake', 'roe');
     // WHERE quant = 'sal' AND person = 'lake' OR person = 'roe';
@@ -72,11 +73,31 @@ trait Filters {
         return $query->where($field, '<=', $value);
     }
 
-    protected function order_by($query, $value)
+    protected function sort($query, $values)
     {
-        foreach ((array)$value as $orderBy) {
-            [$field, $order] = explode(',', $orderBy);
-            $query->orderBy($field, $order ?? 'asc');
+        if(is_null($values)) {
+            return $query;
+        }
+
+        if(!strpos($values, ',')) {
+            return $query->orderBy($values, 'asc');
+        }
+
+        // normalizing
+        $normalized = [];
+        foreach ((array)$values as $value) {
+            [$partOne, $partTwo] = explode(',', $value);
+
+            if(!in_array($partTwo, ['acs', 'desc'])) {
+                $normalized[$partOne] = 'asc';
+                $normalized[$partTwo] = 'asc';
+            } else {
+                $normalized[$partOne] = $partTwo;
+            }
+        }
+
+        foreach ($normalized as $field => $order) {
+            $query->orderBy($field, $order);
         }
 
         return $query;
