@@ -2,6 +2,8 @@
 
 namespace Mehradsadeghi\FilterQueryString\Filters;
 
+use InvalidArgumentException;
+
 abstract class BaseClause {
 
     public $query;
@@ -23,5 +25,12 @@ abstract class BaseClause {
     protected function hasComma($value)
     {
         return strpos($value, ',');
+    }
+
+    protected function validate($message = null)
+    {
+        if (is_null($this->values)) {
+            throw new InvalidArgumentException($message);
+        }
     }
 }

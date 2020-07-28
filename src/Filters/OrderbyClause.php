@@ -8,9 +8,7 @@ class OrderbyClause extends BaseClause implements FilterContract {
 
     public function apply()
     {
-        if(is_null($this->values)) {
-            return $this->query;
-        }
+        $this->validate('you should provide a value for your order by clause.');
 
         if(!$this->hasComma($this->values)) {
             return $this->query->orderBy($this->values, 'asc');

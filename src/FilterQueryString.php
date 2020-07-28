@@ -3,6 +3,7 @@
 namespace Mehradsadeghi\FilterQueryString;
 
 use Illuminate\Support\Facades\Request;
+use InvalidArgumentException;
 use Mehradsadeghi\FilterQueryString\Filters\ComparisonClause;
 use Mehradsadeghi\FilterQueryString\Filters\ComparisonClauses\GreaterOrEqualTo;
 use Mehradsadeghi\FilterQueryString\Filters\ComparisonClauses\GreaterThan;
@@ -40,7 +41,13 @@ trait FilterQueryString {
 
             $targetFilter = !empty($this->filterings[$filter]) ? $filter : 'default';
 
-            app($this->filterings[$targetFilter], $params)->apply();
+            try {
+
+                app($this->filterings[$targetFilter], $params)->apply();
+
+            } catch (InvalidArgumentException $exception) {
+                continue;
+            }
         }
 
         return $query;

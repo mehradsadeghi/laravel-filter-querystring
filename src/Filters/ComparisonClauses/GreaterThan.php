@@ -8,6 +8,6 @@ class GreaterThan extends BaseComparison implements FilterContract
 {
     public function apply()
     {
-        $this->query->where($this->filter, '>', $this->values);
+        $this->query->{$this->method}($this->filter, '>', $this->values);
     }
 }

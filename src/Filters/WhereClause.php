@@ -8,9 +8,7 @@ class WhereClause extends BaseClause implements FilterContract {
 
     public function apply()
     {
-        if(is_null($this->values)) {
-            return $this->query;
-        }
+        $this->validate('you should provide a value for your where clause.');
 
         if(is_array($this->values)) {
             return $this->orWhere($this->query, $this->filter, $this->values);
