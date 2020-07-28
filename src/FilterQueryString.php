@@ -2,9 +2,25 @@
 
 namespace Mehradsadeghi\FilterQueryString;
 
+use Illuminate\Support\Facades\Request;
+use Mehradsadeghi\FilterQueryString\Filters\ComparisonClause;
+use Mehradsadeghi\FilterQueryString\Filters\ComparisonClauses\GreaterOrEqualTo;
+use Mehradsadeghi\FilterQueryString\Filters\ComparisonClauses\GreaterThan;
+use Mehradsadeghi\FilterQueryString\Filters\ComparisonClauses\LessOrEqualTo;
+use Mehradsadeghi\FilterQueryString\Filters\ComparisonClauses\LessThan;
+use Mehradsadeghi\FilterQueryString\Filters\OrderbyClause;
+use Mehradsadeghi\FilterQueryString\Filters\WhereClause;
+
 trait FilterQueryString {
 
-    use Filters;
+    private $filterings = [
+        'default' => WhereClause::class,
+        'sort' => OrderbyClause::class,
+        'greater' => GreaterThan::class,
+        'greater_or_equal' => GreaterOrEqualTo::class,
+        'less' => LessThan::class,
+        'less_or_equal' => LessOrEqualTo::class,
+    ];
 
     public function __construct($attributes = [])
     {
@@ -14,41 +30,28 @@ trait FilterQueryString {
 
     public function scopeFilter($query)
     {
-        foreach($this->getFilters() as $filter => $value) {
+        foreach($this->getFilters() as $filter => $values) {
 
-            if(method_exists($this, $filter)) {
-                $this->{$filter}($query, $value);
-            } else {
-                $this->defaultFilter($query, $filter, $value);
-            }
+            $params = [
+                'query' => $query,
+                'filter' => $filter,
+                'values' => $values,
+            ];
+
+            $targetFilter = !empty($this->filterings[$filter]) ? $filter : 'default';
+
+            app($this->filterings[$targetFilter], $params)->apply();
         }
 
         return $query;
     }
 
-    protected function getFilters()
+    private function getFilters()
     {
         $filter = function ($key) {
             return !$this->unguardFilters ? in_array($key, $this->filters) : true;
         };
 
-        // todo try to separate http from here
-        return array_filter(request()->query->all(), $filter, ARRAY_FILTER_USE_BOTH) ?? [];
-    }
-
-    private function separateCommaValues($value)
-    {
-        return explode(',', $value);
-    }
-
-    private function validateValue($key, $value)
-    {
-        return !is_null($value) and $this->validateCountOfValues($key, $value);
-    }
-
-    private function validateCountOfValues($key, $value)
-    {
-        $mandatoryCount = $this->minValueCountRules[$key] ?? $this->minValueCountRules['defaultFilter'];
-        return count($this->separateCommaValues($value)) >= $mandatoryCount;
+        return array_filter(Request::query(), $filter, ARRAY_FILTER_USE_BOTH) ?? [];
     }
 }

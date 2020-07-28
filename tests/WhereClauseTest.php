@@ -8,6 +8,20 @@ use Mehradsadeghi\FilterQueryString\Models\User;
 class WhereClauseTest extends TestCase
 {
     /** @test */
+    public function a_where_clause__with_empty_value_will_be_ignored()
+    {
+        Route::get('/', function() {
+            return User::select('name')->filter()->get();
+        });
+
+        $query = 'name=';
+
+        $response = $this->get("/?$query");
+
+        $response->assertJsonCount(User::count());
+    }
+
+   /** @test */
     public function a_where_clause_can_be_performed_correctly()
     {
         Route::get('/', function() {
