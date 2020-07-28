@@ -11,9 +11,9 @@ class WhereClause extends BaseClause implements FilterContract {
         $this->validate('you should provide a value for your where clause.');
 
         if(is_array($this->values)) {
-            return $this->orWhere($this->query, $this->filter, $this->values);
+            $this->orWhere($this->query, $this->filter, $this->values);
         } else {
-            return $this->andWhere($this->query, $this->filter, $this->values);
+            $this->andWhere($this->query, $this->filter, $this->values);
         }
     }
 
@@ -24,18 +24,12 @@ class WhereClause extends BaseClause implements FilterContract {
                 $query->orWhere($filter, $value);
             }
         });
-
-        return $query;
     }
 
     private function andWhere($query, $filter, $values)
     {
-        $query->where(function($query) use($values, $filter) {
-            foreach((array)$values as $value) {
-                $query->where($filter, $value);
-            }
-        });
-
-        return $query;
+        foreach((array)$values as $value) {
+            $query->where($filter, $value);
+        }
     }
 }

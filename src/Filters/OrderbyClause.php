@@ -30,7 +30,5 @@ class OrderbyClause extends BaseClause implements FilterContract {
         foreach ($normalized as $field => $order) {
             $this->query->orderBy($field, $order);
         }
-
-        return $this->query;
     }
 }
