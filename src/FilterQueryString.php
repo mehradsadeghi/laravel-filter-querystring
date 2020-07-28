@@ -28,9 +28,8 @@ trait FilterQueryString {
 
     protected function getFilters()
     {
-        $filter = function ($value, $key) {
-            $isInFilterList = !$this->unguardFilters ? in_array($key, $this->filters) : true;
-            return $isInFilterList and $this->validate($key, $value);
+        $filter = function ($key) {
+            return !$this->unguardFilters ? in_array($key, $this->filters) : true;
         };
 
         // todo try to separate http from here
@@ -42,7 +41,7 @@ trait FilterQueryString {
         return explode(',', $value);
     }
 
-    private function validate($key, $value)
+    private function validateValue($key, $value)
     {
         return !is_null($value) and $this->validateCountOfValues($key, $value);
     }

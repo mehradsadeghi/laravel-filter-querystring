@@ -7,7 +7,7 @@ trait Filters {
     // supported:
     /*
      * simple `where`
-     * multiple where with `orWhere`
+     * multiple where with `where`
      * simple `order_by`
      * multiple `order_by`s
      * after
@@ -17,7 +17,6 @@ trait Filters {
      */
 
     // make a module and make github repository for it
-    // you can test it via in memory database]
 
     // helpers:
     // created_at
@@ -32,6 +31,7 @@ trait Filters {
     // WHERE site LIKE 'DR%';
     // WHERE (lat > -48) OR (lat < 48);
     // price[min]=2620408&price[max]=8527245&
+    // multiple where with `Orwhere`
 
     /**
      * The minimum mandatory count of values in query string, After it's exploded by comma, for each method.
@@ -82,11 +82,33 @@ trait Filters {
         return $query;
     }
 
-    protected function defaultFilter($query, $filter, $value)
+    protected function defaultFilter($query, $filter, $values)
     {
-        foreach((array)$value as $item) {
-            $query->orWhere($filter, $item);
+        if(is_array($values)) {
+            return $this->orWhere($query, $filter, $values);
+        } else {
+            return $this->andWhere($query, $filter, $values);
         }
+    }
+
+    private function orWhere($query, $filter, $values)
+    {
+        $query->where(function($query) use($values, $filter) {
+            foreach((array)$values as $value) {
+                $query->orWhere($filter, $value);
+            }
+        });
+
+        return $query;
+    }
+
+    private function andWhere($query, $filter, $values)
+    {
+        $query->where(function($query) use($values, $filter) {
+            foreach((array)$values as $value) {
+                $query->where($filter, $value);
+            }
+        });
 
         return $query;
     }

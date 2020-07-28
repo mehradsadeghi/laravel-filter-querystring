@@ -15,24 +15,31 @@ class UsersTableSeeder extends Seeder
         $users = [
             [
                 'name' => 'mehrad',
-                'email' => 'm@m.com',
-                'username' => 'm',
+                'email' => 'mehrad@example.com',
+                'username' => 'mehrad',
                 'created_at' => '2020-07-22',
                 'updated_at' => '2020-07-22',
             ],
             [
                 'name' => 'reza',
-                'email' => 'r@m.com',
-                'username' => 'r',
+                'email' => 'reza@example.com',
+                'username' => 'reza',
                 'created_at' => '2020-07-23',
                 'updated_at' => '2020-07-23',
             ],
             [
                 'name' => 'omid',
-                'email' => 'o@m.com',
-                'username' => 'o',
+                'email' => 'omid@example.com',
+                'username' => 'omid',
                 'created_at' => '2020-07-24',
                 'updated_at' => '2020-07-24',
+            ],
+            [
+                'name' => 'ali',
+                'email' => 'ali@example.com',
+                'username' => 'ali',
+                'created_at' => '2020-07-25',
+                'updated_at' => '2020-07-25',
             ],
         ];
 
