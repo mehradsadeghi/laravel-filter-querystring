@@ -8,24 +8,21 @@ use Mehradsadeghi\FilterQueryString\Filters\BaseClause;
 abstract class BaseComparison extends BaseClause
 {
     protected $isDateTime = false;
-    protected $method = 'where';
+    protected $method;
+    protected $normalized = [];
 
     public function __construct($query, $filter, $values)
     {
         parent::__construct($query, $filter, $values);
 
-        if (!$this->hasComma($this->values)) {
-            throw new InvalidArgumentException('comparison values should be comma separated.');
-        }
-
-        [$this->filter, $this->values] = $this->separateCommaValues($this->values);
-
-        $this->method = $this->determineMethod();
+        $this->normalizeValues($values);
     }
 
     public function apply()
     {
-        $this->query->{$this->method}($this->filter, $this->operator, $this->values);
+        foreach ($this->normalized as $field => $value) {
+            $this->query->{$this->determineMethod($value)}($field, $this->operator, $value);
+        }
     }
 
     protected function isDateTime($value)
@@ -33,8 +30,22 @@ abstract class BaseComparison extends BaseClause
         return date_parse($value)['error_count'] < 1;
     }
 
-    private function determineMethod()
+    private function determineMethod($value)
     {
-        return $this->isDateTime($this->values) ? 'whereDate' : $this->method;
+        return $this->isDateTime($value) ? 'whereDate' : 'where';
+    }
+
+    private function normalizeValues($values)
+    {
+        foreach ((array)$values as $value) {
+
+            if (!$this->hasComma($value)) {
+                throw new InvalidArgumentException('comparison values should be comma separated.');
+            }
+
+            [$field, $val] = $this->separateCommaValues($value);
+
+            $this->normalized[$field] = $val;
+        }
     }
 }

@@ -31,6 +31,7 @@ trait FilterQueryString {
 
     public function scopeFilter($query)
     {
+        dd($this->getFilters());
         foreach($this->getFilters() as $filter => $values) {
 
             $params = [
