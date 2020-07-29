@@ -6,33 +6,34 @@ use Illuminate\Support\Facades\Route;
 use Mehradsadeghi\FilterQueryString\Models\User;
 use Mehradsadeghi\FilterQueryString\Tests\TestCase;
 
-class CombinationTest extends TestCase
+class GreaterOrLessThanTest extends TestCase
 {
     /** @test */
-    public function unite_two_different_fields_with_greater()
+    public function union_one_field_with_greater_or_less()
     {
         Route::get('/', function() {
             return User::select('name')->filter()->get();
         });
 
-        $query = 'greater[0]=age,20&greater[1]=created_at,2020-09-01';
+        $query = 'greater_or_less=created_at,2020-11-01,2020-11-01';
 
         $response = $this->get("/?$query");
 
-        $response->assertJsonCount(1);
+        $response->assertJsonCount(3);
     }
 
     /** @test */
-    public function unite_two_different_fields_with_greater_and_less()
+    public function union_two_fields_with_greater_or_less()
     {
+        $this->withoutExceptionHandling();
         Route::get('/', function() {
             return User::select('name')->filter()->get();
         });
 
-        $query = 'greater=age,20&less=created_at,2020-10-01';
+        $query = 'greater_or_less[0]=created_at,2020-11-01,2020-11-01&greater_or_less[1]=age,10,30';
 
         $response = $this->get("/?$query");
 
-        $response->assertJsonCount(1);
+        $response->assertJsonCount(3);
     }
 }

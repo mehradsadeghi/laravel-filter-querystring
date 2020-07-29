@@ -30,12 +30,12 @@ abstract class BaseComparison extends BaseClause
         return date_parse($value)['error_count'] < 1;
     }
 
-    private function determineMethod($value)
+    protected function determineMethod($value)
     {
         return $this->isDateTime($value) ? 'whereDate' : 'where';
     }
 
-    private function normalizeValues($values)
+    protected function normalizeValues($values)
     {
         foreach ((array)$values as $value) {
 
