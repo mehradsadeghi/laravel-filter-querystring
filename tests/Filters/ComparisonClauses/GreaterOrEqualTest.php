@@ -5,7 +5,7 @@ namespace Mehradsadeghi\FilterQueryString\Tests\Filters\ComparisonClauses;
 use Mehradsadeghi\FilterQueryString\Models\User;
 use Mehradsadeghi\FilterQueryString\Tests\TestCase;
 
-class GreaterOrEqualToTest extends TestCase
+class GreaterOrEqualTest extends TestCase
 {
     /** @test */
     public function list_of_users_with_age_of_greater_or_equal_to_20_is_shown_correctly()
