@@ -14,6 +14,7 @@ use Mehradsadeghi\FilterQueryString\Filters\ComparisonClauses\LessThan;
 use Mehradsadeghi\FilterQueryString\Filters\OrderbyClause;
 use Mehradsadeghi\FilterQueryString\Filters\WhereClause;
 use Mehradsadeghi\FilterQueryString\Filters\WhereInClause;
+use Mehradsadeghi\FilterQueryString\Filters\WhereLikeClause;
 
 trait FilterQueryString {
 
@@ -27,6 +28,7 @@ trait FilterQueryString {
         'between' => Between::class,
         'not_between' => NotBetween::class,
         'in' => WhereInClause::class,
+        'like' => WhereLikeClause::class,
     ];
 
     public function __construct($attributes = [])
