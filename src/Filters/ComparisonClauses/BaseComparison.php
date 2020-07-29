@@ -23,6 +23,11 @@ abstract class BaseComparison extends BaseClause
         $this->method = $this->determineMethod();
     }
 
+    public function apply()
+    {
+        $this->query->{$this->method}($this->filter, $this->operator, $this->values);
+    }
+
     protected function isDateTime($value)
     {
         return date_parse($value)['error_count'] < 1;

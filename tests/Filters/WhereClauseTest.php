@@ -1,9 +1,10 @@
 <?php
 
-namespace Mehradsadeghi\FilterQueryString\Tests;
+namespace Mehradsadeghi\FilterQueryString\Tests\Filters;
 
 use Illuminate\Support\Facades\Route;
 use Mehradsadeghi\FilterQueryString\Models\User;
+use Mehradsadeghi\FilterQueryString\Tests\TestCase;
 
 class WhereClauseTest extends TestCase
 {

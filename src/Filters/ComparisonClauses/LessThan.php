@@ -6,8 +6,5 @@ use Mehradsadeghi\FilterQueryString\FilterContract;
 
 class LessThan extends BaseComparison implements FilterContract
 {
-    public function apply()
-    {
-        $this->query->{$this->method}($this->filter, '<', $this->values);
-    }
+    public $operator = '<';
 }
