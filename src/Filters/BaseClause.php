@@ -17,16 +17,6 @@ abstract class BaseClause {
         $this->values = $values;
     }
 
-    protected function separateCommaValues($value)
-    {
-        return explode(',', $value);
-    }
-
-    protected function hasComma($value)
-    {
-        return strpos($value, ',');
-    }
-
     protected function validate($message = null)
     {
         if (is_null($this->values)) {

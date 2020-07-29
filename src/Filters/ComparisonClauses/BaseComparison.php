@@ -25,25 +25,20 @@ abstract class BaseComparison extends BaseClause
         }
     }
 
-    protected function isDateTime($value)
-    {
-        return date_parse($value)['error_count'] < 1;
-    }
-
     protected function determineMethod($value)
     {
-        return $this->isDateTime($value) ? 'whereDate' : 'where';
+        return isDateTime($value) ? 'whereDate' : 'where';
     }
 
     protected function normalizeValues($values)
     {
         foreach ((array)$values as $value) {
 
-            if (!$this->hasComma($value)) {
+            if (!hasComma($value)) {
                 throw new InvalidArgumentException('comparison values should be comma separated.');
             }
 
-            [$field, $val] = $this->separateCommaValues($value);
+            [$field, $val] = separateCommaValues($value);
 
             $this->normalized[$field] = $val;
         }

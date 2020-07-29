@@ -2,6 +2,7 @@
 
 namespace Mehradsadeghi\FilterQueryString\Filters\ComparisonClauses;
 
+use InvalidArgumentException;
 use Mehradsadeghi\FilterQueryString\FilterContract;
 
 class GreaterOrLessThan extends BaseComparison implements FilterContract
@@ -25,16 +26,14 @@ class GreaterOrLessThan extends BaseComparison implements FilterContract
     {
         foreach((array)$values as $value) {
 
-            if (!$this->hasComma($value)) {
+            if (!hasComma($value)) {
                 throw new InvalidArgumentException('comparison values should be comma separated.');
             }
 
-            $exploded = explode(',', $value);
+            $exploded = separateCommaValues($value);
 
             if (count($exploded) != 3) {
-                throw new InvalidArgumentException(
-                    'greater or less than comparison should have two comma separated values.'
-                );
+                throw new InvalidArgumentException('greater or less than comparison should have two comma separated values.');
             }
 
             [$field, $val1, $val2] = $exploded;

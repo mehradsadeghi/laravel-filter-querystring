@@ -32,6 +32,9 @@
     }
   },
   "autoload-dev": {
+    "files": [
+      "helpers/helpers.php"
+    ],
     "classmap": [
       "database"
     ],

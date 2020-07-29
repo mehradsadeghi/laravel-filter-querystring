@@ -10,11 +10,9 @@ class WhereClause extends BaseClause implements FilterContract {
     {
         $this->validate('you should provide a value for your where clause.');
 
-        if(is_array($this->values)) {
-            $this->orWhere($this->query, $this->filter, $this->values);
-        } else {
-            $this->andWhere($this->query, $this->filter, $this->values);
-        }
+        $method = is_array($this->values) ? 'orWhere' : 'andWhere';
+
+        $this->{$method}($this->query, $this->filter, $this->values);
     }
 
     private function orWhere($query, $filter, $values)

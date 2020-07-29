@@ -12,7 +12,16 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        $users = [
+        $users = $this->getStub();
+
+        foreach ($users as $user) {
+            factory(User::class)->create($user);
+        }
+    }
+
+    private function getStub()
+    {
+        return [
             [
                 'name' => 'mehrad',
                 'email' => 'mehrad@example.com',
@@ -46,9 +55,5 @@ class UsersTableSeeder extends Seeder
                 'updated_at' => '2020-09-01',
             ],
         ];
-
-        foreach ($users as $user) {
-            factory(User::class)->create($user);
-        }
     }
 }
