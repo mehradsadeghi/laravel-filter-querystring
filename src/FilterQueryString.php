@@ -12,6 +12,7 @@ use Mehradsadeghi\FilterQueryString\Filters\ComparisonClauses\LessOrEqualTo;
 use Mehradsadeghi\FilterQueryString\Filters\ComparisonClauses\LessThan;
 use Mehradsadeghi\FilterQueryString\Filters\OrderbyClause;
 use Mehradsadeghi\FilterQueryString\Filters\WhereClause;
+use Mehradsadeghi\FilterQueryString\Filters\WhereInClause;
 
 trait FilterQueryString {
 
@@ -23,6 +24,7 @@ trait FilterQueryString {
         'less' => LessThan::class,
         'less_or_equal' => LessOrEqualTo::class,
         'greater_or_less' => GreaterOrLessThan::class,
+        'in' => WhereInClause::class,
     ];
 
     public function __construct($attributes = [])
