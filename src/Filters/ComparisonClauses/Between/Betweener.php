@@ -1,19 +1,17 @@
 <?php
 
-namespace Mehradsadeghi\FilterQueryString\Filters\ComparisonClauses;
+namespace Mehradsadeghi\FilterQueryString\Filters\ComparisonClauses\Between;
 
 use InvalidArgumentException;
-use Mehradsadeghi\FilterQueryString\FilterContract;
-use Mehradsadeghi\FilterQueryString\Models\User;
 
-class Between extends BaseComparison implements FilterContract
+trait Betweener
 {
     private $explodedValue;
 
     public function apply()
     {
         foreach($this->normalized as $field => $values) {
-            $this->query->whereBetween($field, $values);
+            $this->query->{$this->method}($field, $values);
         }
     }
 

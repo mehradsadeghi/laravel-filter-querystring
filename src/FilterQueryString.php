@@ -5,8 +5,9 @@ namespace Mehradsadeghi\FilterQueryString;
 use Illuminate\Support\Facades\Request;
 use InvalidArgumentException;
 use Mehradsadeghi\FilterQueryString\Filters\ComparisonClause;
+use Mehradsadeghi\FilterQueryString\Filters\ComparisonClauses\Between\NotBetween;
 use Mehradsadeghi\FilterQueryString\Filters\ComparisonClauses\GreaterOrEqualTo;
-use Mehradsadeghi\FilterQueryString\Filters\ComparisonClauses\Between;
+use Mehradsadeghi\FilterQueryString\Filters\ComparisonClauses\Between\Between;
 use Mehradsadeghi\FilterQueryString\Filters\ComparisonClauses\GreaterThan;
 use Mehradsadeghi\FilterQueryString\Filters\ComparisonClauses\LessOrEqualTo;
 use Mehradsadeghi\FilterQueryString\Filters\ComparisonClauses\LessThan;
@@ -24,6 +25,7 @@ trait FilterQueryString {
         'less' => LessThan::class,
         'less_or_equal' => LessOrEqualTo::class,
         'between' => Between::class,
+        'not_between' => NotBetween::class,
         'in' => WhereInClause::class,
     ];
 
