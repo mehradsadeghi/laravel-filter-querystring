@@ -2,6 +2,7 @@
 
 namespace Mehradsadeghi\FilterQueryString\Filters;
 
+use InvalidArgumentException;
 use Mehradsadeghi\FilterQueryString\FilterContract;
 
 class WhereInClause extends BaseClause implements FilterContract {
@@ -18,10 +19,6 @@ class WhereInClause extends BaseClause implements FilterContract {
     protected function validate($message = null)
     {
         parent::validate($message);
-
-        if(!hasComma($this->values)) {
-            throw new InvalidArgumentException($message);
-        }
 
         if(count(separateCommaValues($this->values)) < 2) {
             throw new InvalidArgumentException($message);

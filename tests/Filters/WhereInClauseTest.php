@@ -13,7 +13,26 @@ class WhereInClauseTest extends TestCase
         $query = 'in=name,mehrad,reza';
 
         $response = $this->get("/?$query");
-        dd($response->getContent());
+
+        $response->assertJsonCount(2);
+    }
+    
+    /** @test */
+    public function wherein_clause_with_empty_field_and_values_will_be_ignored()
+    {
+        $query = 'in=';
+
+        $response = $this->get("/?$query");
+
+        $response->assertJsonCount(User::count());
+    }
+    
+    /** @test */
+    public function wherein_clause_with_empty_values()
+    {
+        $query = 'in=name';
+
+        $response = $this->get("/?$query");
 
         $response->assertJsonCount(User::count());
     }
