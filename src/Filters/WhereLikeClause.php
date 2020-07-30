@@ -7,7 +7,7 @@ use Mehradsadeghi\FilterQueryString\FilterContract;
 
 class WhereLikeClause extends BaseClause implements FilterContract {
 
-    private $explodedValue;
+    protected $validationMessage = 'you should provide comma separated values for your where like clause.';
 
     public function apply()
     {
@@ -20,12 +20,14 @@ class WhereLikeClause extends BaseClause implements FilterContract {
         });
     }
 
-    protected function validate($message = null)
+    public function validate($value)
     {
-        parent::validate($message);
+        parent::validate($value);
 
-        if(count($this->explodedValue) != 2) {
-            throw new InvalidArgumentException($message);
+        foreach ((array) $value as $item) {
+            if(count(separateCommaValues($item)) != 2) {
+                throw new InvalidArgumentException($this->validationMessage);
+            }
         }
     }
 
@@ -34,13 +36,7 @@ class WhereLikeClause extends BaseClause implements FilterContract {
         $normalized = [];
 
         foreach ((array) $this->values as $value) {
-
-            $this->explodedValue = separateCommaValues($value);
-
-            $this->validate('you should provide comma separated values for your where like clause.');
-
-            [$field, $value] = $this->explodedValue;
-
+            [$field, $value] = separateCommaValues($value);
             $normalized[$field] = $value;
         }
 

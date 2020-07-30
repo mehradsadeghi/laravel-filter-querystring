@@ -9,5 +9,7 @@ class Between extends BaseComparison implements FilterContract
 {
     use Betweener;
 
+    protected $validationMessage = 'between statement should have two comma separated values.';
+
     public $method = 'whereBetween';
 }

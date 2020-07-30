@@ -51,7 +51,13 @@ trait FilterQueryString {
 
             try {
 
-                app($this->filterings[$targetFilter], $params)->apply();
+                $class = $this->filterings[$targetFilter];
+
+                app()->resolving($class, function($object) use($values) {
+                    $object->validate($values);
+                });
+
+                app($class, $params)->apply();
 
             } catch (InvalidArgumentException $exception) {
                 continue;
@@ -67,6 +73,6 @@ trait FilterQueryString {
             return !$this->unguardFilters ? in_array($key, $this->filters) : true;
         };
 
-        return array_filter(Request::query(), $filter, ARRAY_FILTER_USE_BOTH) ?? [];
+        return array_filter(Request::query(), $filter, ARRAY_FILTER_USE_KEY) ?? [];
     }
 }

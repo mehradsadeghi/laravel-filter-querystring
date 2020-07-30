@@ -7,21 +7,21 @@ use Mehradsadeghi\FilterQueryString\FilterContract;
 
 class WhereInClause extends BaseClause implements FilterContract {
 
+    protected $validationMessage = 'you should provide comma separated values for your where in clause.';
+
     public function apply()
     {
-        $this->validate('you should provide comma separated values for your where in clause.');
-
         [$field, $values] = $this->normalizeValues();
 
         $this->query->whereIn($field, $values);
     }
 
-    protected function validate($message = null)
+    public function validate($value)
     {
-        parent::validate($message);
+        parent::validate($value);
 
-        if(count(separateCommaValues($this->values)) < 2) {
-            throw new InvalidArgumentException($message);
+        if(count(separateCommaValues($value)) < 2) {
+            throw new InvalidArgumentException($this->validationMessage);
         }
     }
 

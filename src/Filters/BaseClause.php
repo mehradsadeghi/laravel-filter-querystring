@@ -17,10 +17,10 @@ abstract class BaseClause {
         $this->values = $values;
     }
 
-    protected function validate($message = null)
+    public function validate($value)
     {
-        if (is_null($this->values)) {
-            throw new InvalidArgumentException($message);
+        if (is_null($value)) {
+            throw new InvalidArgumentException($this->validationMessage ?? '');
         }
     }
 }

@@ -6,34 +6,28 @@ use InvalidArgumentException;
 
 trait Betweener
 {
-    private $explodedValue;
-
     public function apply()
     {
+        $this->normalizeValues($this->values);
+
         foreach($this->normalized as $field => $values) {
             $this->query->{$this->method}($field, $values);
         }
     }
 
-    protected function validate($message = null)
+    public function validate($value)
     {
-        parent::validate($message);
-
-        if (count($this->explodedValue) != 3) {
-            throw new InvalidArgumentException($message);
+        foreach((array)$value as $item) {
+            if (count(separateCommaValues($item)) != 3) {
+                throw new InvalidArgumentException($this->validationMessage);
+            }
         }
     }
 
     protected function normalizeValues($values)
     {
         foreach((array)$values as $value) {
-
-            $this->explodedValue = separateCommaValues($value);
-
-            $this->validate('between statement should have two comma separated values.');
-
-            [$field, $val1, $val2] = $this->explodedValue;
-
+            [$field, $val1, $val2] = separateCommaValues($value);
             $this->normalized[$field] = [$val1, $val2];
         }
     }

@@ -9,5 +9,7 @@ class NotBetween extends BaseComparison implements FilterContract
 {
     use Betweener;
 
+    protected $validationMessage = 'not between statement should have two comma separated values.';
+
     public $method = 'whereNotBetween';
 }

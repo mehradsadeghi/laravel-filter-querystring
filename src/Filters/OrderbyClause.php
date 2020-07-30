@@ -6,10 +6,10 @@ use Mehradsadeghi\FilterQueryString\FilterContract;
 
 class OrderbyClause extends BaseClause implements FilterContract {
 
+    protected $validationMessage = 'you should provide a value for your order by clause.';
+
     public function apply()
     {
-        $this->validate('you should provide a value for your order by clause.');
-
         if(!hasComma($this->values)) {
             return $this->query->orderBy($this->values, 'asc');
         }

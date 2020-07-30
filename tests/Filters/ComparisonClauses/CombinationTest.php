@@ -35,24 +35,4 @@ class CombinationTest extends TestCase
 
         $response->assertJsonCount(1);
     }
-
-    /** @test */
-    public function unite_two_fields_with_greater_or_less()
-    {
-        $query = 'greater_or_less[0]=created_at,2020-11-01,2020-11-01&greater_or_less[1]=age,10,30';
-
-        $response = $this->get("/?$query");
-
-        $response->assertJsonCount(3);
-    }
-
-    /** @test */
-    public function unite_greater_or_less_and_greater()
-    {
-        $query = 'greater_or_less=age,30,21&greater=created_at,2020-11-01';
-
-        $response = $this->get("/?$query");
-
-        $response->assertJsonCount(1);
-    }
 }

@@ -6,10 +6,10 @@ use Mehradsadeghi\FilterQueryString\FilterContract;
 
 class WhereClause extends BaseClause implements FilterContract {
 
+    protected $validationMessage = 'you should provide a value for your where clause.';
+
     public function apply()
     {
-        $this->validate('you should provide a value for your where clause.');
-
         $method = is_array($this->values) ? 'orWhere' : 'andWhere';
 
         $this->{$method}($this->query, $this->filter, $this->values);
