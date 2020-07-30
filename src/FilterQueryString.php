@@ -2,6 +2,7 @@
 
 namespace Mehradsadeghi\FilterQueryString;
 
+use Closure;
 use Illuminate\Support\Facades\Request;
 use InvalidArgumentException;
 use Mehradsadeghi\FilterQueryString\Filters\ComparisonClause;
@@ -18,7 +19,7 @@ use Mehradsadeghi\FilterQueryString\Filters\WhereLikeClause;
 
 trait FilterQueryString {
 
-    private $filterings = [
+    private $availableFilters = [
         'default' => WhereClause::class,
         'sort' => OrderbyClause::class,
         'greater' => GreaterThan::class,
@@ -31,33 +32,31 @@ trait FilterQueryString {
         'like' => WhereLikeClause::class,
     ];
 
-    public function __construct($attributes = [])
-    {
-        parent::__construct($attributes);
-        $this->unguardFilters = $this->unguardFilters ?? false;
-    }
-
     public function scopeFilter($query)
     {
         foreach($this->getFilters() as $filter => $values) {
 
-            $params = [
-                'query' => $query,
-                'filter' => $filter,
-                'values' => $values,
-            ];
-
-            $targetFilter = !empty($this->filterings[$filter]) ? $filter : 'default';
+            $resolvedFilter = $this->resolveFilter($filter);
 
             try {
 
-                $class = $this->filterings[$targetFilter];
+                // if resolved filter is a user custom defined filter
+                if($resolvedFilter instanceof Closure) {
+                    $resolvedFilter($query, $values);
+                    continue;
+                }
 
-                app()->resolving($class, function($object) use($values) {
+                app()->resolving($resolvedFilter, function($object) use($values) {
                     $object->validate($values);
                 });
 
-                app($class, $params)->apply();
+                $params = [
+                    'query' => $query,
+                    'filter' => $filter,
+                    'values' => $values,
+                ];
+
+                app($resolvedFilter, $params)->apply();
 
             } catch (InvalidArgumentException $exception) {
                 continue;
@@ -70,9 +69,28 @@ trait FilterQueryString {
     private function getFilters()
     {
         $filter = function ($key) {
-            return !$this->unguardFilters ? in_array($key, $this->filters) : true;
+            return $this->unguardFilters != true ? in_array($key, $this->filters) : true;
         };
 
         return array_filter(Request::query(), $filter, ARRAY_FILTER_USE_KEY) ?? [];
+    }
+
+    private function resolveFilter($filter) {
+
+        if(method_exists($this, $filter)) {
+            return $this->getClosure($filter);
+        }
+
+        if(!empty($this->availableFilters[$filter])) {
+            return $this->availableFilters[$filter];
+        }
+
+        return $this->availableFilters['default'];
+    }
+
+    private function getClosure(string $filter) {
+        return function ($query, $values) use ($filter) {
+            return $this->{$filter}($query, $values);
+        };
     }
 }

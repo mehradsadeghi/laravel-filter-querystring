@@ -60,13 +60,13 @@ class WhereClauseTest extends TestCase
 
         $response = $this->get("/?$query");
 
-        $response->assertJsonCount(0);
+        $response->assertJsonCount(User::count());
 
         $query = 'name=mehrad&wrong_field=omid';
 
         $response = $this->get("/?$query");
 
-        $response->assertJsonCount(0);
+        $response->assertJsonCount(1);
     }
 
     /** @test */
