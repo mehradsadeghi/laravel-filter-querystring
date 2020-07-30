@@ -27,14 +27,14 @@
     "orchestra/testbench": "^4.0"
   },
   "autoload": {
+    "files": [
+      "helpers/helpers.php"
+    ],
     "psr-4": {
       "Mehradsadeghi\\FilterQueryString\\": "src/"
     }
   },
   "autoload-dev": {
-    "files": [
-      "helpers/helpers.php"
-    ],
     "classmap": [
       "database"
     ],

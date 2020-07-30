@@ -69,7 +69,7 @@ trait FilterQueryString {
     private function getFilters()
     {
         $filter = function ($key) {
-            return $this->unguardFilters != true ? in_array($key, $this->filters) : true;
+            return $this->unguardFilters != true ? in_array($key, $this->filters ?? []) : true;
         };
 
         return array_filter(Request::query(), $filter, ARRAY_FILTER_USE_KEY) ?? [];
