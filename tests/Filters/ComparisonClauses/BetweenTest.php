@@ -28,16 +28,6 @@ class BetweenTest extends TestCase
     }
 
     /** @test */
-    public function list_of_user_with_age_between_10_and_20_and_created_at_between()
-    {
-        $query = 'between[0]=age,10,20&between[1]=created_at,2020-10-01,2020-12-02';
-
-        $response = $this->get("/?$query");
-
-        $response->assertJsonCount(2);
-    }
-
-    /** @test */
     public function between_statement_with_invalid_parameters_will_be_ignored()
     {
         $query = 'between=created_at,2020-11-01';

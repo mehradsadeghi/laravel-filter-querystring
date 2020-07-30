@@ -26,10 +26,8 @@ abstract class BaseComparison extends BaseClause
 
         parent::validate($value);
 
-        foreach ((array)$value as $item) {
-            if (!hasComma($item)) {
-                throw new InvalidArgumentException($this->validationMessage);
-            }
+        if (!hasComma($value)) {
+            throw new InvalidArgumentException($this->validationMessage);
         }
     }
 
@@ -40,9 +38,7 @@ abstract class BaseComparison extends BaseClause
 
     protected function normalizeValues($values)
     {
-        foreach ((array)$values as $value) {
-            [$field, $val] = separateCommaValues($value);
-            $this->normalized[$field] = $val;
-        }
+        [$field, $val] = separateCommaValues($values);
+        $this->normalized[$field] = $val;
     }
 }

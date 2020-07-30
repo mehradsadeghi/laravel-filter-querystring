@@ -7,26 +7,6 @@ use Mehradsadeghi\FilterQueryString\Tests\TestCase;
 class CombinationTest extends TestCase
 {
     /** @test */
-    public function unite_two_different_fields_with_greater()
-    {
-        $query = 'greater[0]=age,20&greater[1]=created_at,2020-09-01';
-
-        $response = $this->get("/?$query");
-
-        $response->assertJsonCount(1);
-    }
-
-    /** @test */
-    public function unite_two_different_fields_with_less()
-    {
-        $query = 'less[0]=age,22&less[1]=created_at,2020-12-01';
-
-        $response = $this->get("/?$query");
-
-        $response->assertJsonCount(1);
-    }
-
-    /** @test */
     public function unite_two_different_fields_with_greater_and_less()
     {
         $query = 'greater=age,20&less=created_at,2020-10-01';

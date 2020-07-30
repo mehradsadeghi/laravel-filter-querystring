@@ -17,18 +17,14 @@ trait Betweener
 
     public function validate($value)
     {
-        foreach((array)$value as $item) {
-            if (count(separateCommaValues($item)) != 3) {
-                throw new InvalidArgumentException($this->validationMessage);
-            }
+        if (count(separateCommaValues($value)) != 3) {
+            throw new InvalidArgumentException($this->validationMessage);
         }
     }
 
     protected function normalizeValues($values)
     {
-        foreach((array)$values as $value) {
-            [$field, $val1, $val2] = separateCommaValues($value);
-            $this->normalized[$field] = [$val1, $val2];
-        }
+        [$field, $val1, $val2] = separateCommaValues($values);
+        $this->normalized[$field] = [$val1, $val2];
     }
 }
