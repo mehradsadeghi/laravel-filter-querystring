@@ -14,8 +14,10 @@ class WhereLikeClause extends BaseClause implements FilterContract {
         $normalized = $this->normalizeValues();
 
         $this->query->where(function($query) use($normalized) {
-            foreach ($normalized as $field => $value) {
-                $query->orWhere($field, 'like', "%$value%");
+            foreach ($normalized as $field => $values) {
+                foreach ($values as $value) {
+                    $query->orWhere($field, 'like', "%$value%");
+                }
             }
         });
     }
@@ -37,7 +39,7 @@ class WhereLikeClause extends BaseClause implements FilterContract {
 
         foreach ((array) $this->values as $value) {
             [$field, $value] = separateCommaValues($value);
-            $normalized[$field] = $value;
+            $normalized[$field][] = $value;
         }
 
         return $normalized;

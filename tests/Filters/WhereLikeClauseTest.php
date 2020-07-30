@@ -2,6 +2,7 @@
 
 namespace Mehradsadeghi\FilterQueryString\Tests\Filters;
 
+use Illuminate\Support\Facades\Route;
 use Mehradsadeghi\FilterQueryString\Models\User;
 use Mehradsadeghi\FilterQueryString\Tests\TestCase;
 
@@ -21,6 +22,12 @@ class WhereLikeClauseTest extends TestCase
     public function two_where_like_clauses_can_be_performed()
     {
         $query = 'like[0]=name,meh&like[1]=email,reza';
+
+        $response = $this->get("/?$query");
+
+        $response->assertJsonCount(2);
+
+        $query = 'like[0]=name,meh&like[1]=name,rez';
 
         $response = $this->get("/?$query");
 
