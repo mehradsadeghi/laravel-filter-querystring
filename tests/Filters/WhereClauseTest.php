@@ -39,7 +39,7 @@ class WhereClauseTest extends TestCase
     /** @test */
     public function two_non_array_will_unite_the_result()
     {
-        $query = 'name=mehrad&username=omid';
+        $query = 'name=mehrad&username=hossein';
 
         $response = $this->get("/?$query");
 
@@ -62,7 +62,7 @@ class WhereClauseTest extends TestCase
 
         $response->assertJsonCount(User::count());
 
-        $query = 'name=mehrad&wrong_field=omid';
+        $query = 'name=mehrad&wrong_field=hossein';
 
         $response = $this->get("/?$query");
 
@@ -86,7 +86,7 @@ class WhereClauseTest extends TestCase
     /** @test */
     public function two_values_of_one_field_will_union_the_result()
     {
-        $query = 'name[0]=mehrad&name[1]=omid';
+        $query = 'name[0]=mehrad&name[1]=hossein';
 
         $response = $this->get("/?$query");
 
@@ -96,7 +96,7 @@ class WhereClauseTest extends TestCase
     /** @test */
     public function two_values_of_two_fields_will_union_internally_and_unite_externally_the_result()
     {
-        $query = 'name[0]=mehrad&name[1]=omid&username[0]=reza&username[1]=ali';
+        $query = 'name[0]=mehrad&name[1]=hossein&username[0]=reza&username[1]=dariush';
 
         $response = $this->get("/?$query");
 
@@ -106,7 +106,7 @@ class WhereClauseTest extends TestCase
     /** @test */
     public function two_values_of_one_field_and_one_value_of_another_field_will_unite_the_result()
     {
-        $query = 'name[0]=mehrad&name[1]=reza&username=omid';
+        $query = 'name[0]=mehrad&name[1]=reza&username=hossein';
 
         $response = $this->get("/?$query");
 
@@ -116,13 +116,13 @@ class WhereClauseTest extends TestCase
     /** @test */
     public function two_values_of_two_fields_and_one_value_of_another_field_will_unite_the_result()
     {
-        $query = 'name[0]=mehrad&name[1]=reza&username[0]=omid&username[1]=mehrad&email=mehrad@example.com';
+        $query = 'name[0]=mehrad&name[1]=reza&username[0]=hossein&username[1]=mehrad&email=mehrad@example.com';
 
         $response = $this->get("/?$query");
 
         $response->assertJsonCount(1);
 
-        $query = 'name[0]=mehrad&name[1]=reza&username[0]=omid&username[1]=mehrad&email=ali@example.com';
+        $query = 'name[0]=mehrad&name[1]=reza&username[0]=hossein&username[1]=mehrad&email=dariush@example.com';
 
         $response = $this->get("/?$query");
 

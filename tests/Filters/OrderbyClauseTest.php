@@ -26,7 +26,7 @@ class OrderbyClauseTest extends TestCase
 
         $decodedResponse = $response->decodeResponseJson();
 
-        $this->assertEquals('ali', $decodedResponse[0]['name']);
+        $this->assertEquals('dariush', $decodedResponse[0]['name']);
         $this->assertEquals('reza', end($decodedResponse)['name']);
     }
 
@@ -40,7 +40,7 @@ class OrderbyClauseTest extends TestCase
         $decodedResponse = $response->decodeResponseJson();
 
         $this->assertEquals('reza', $decodedResponse[0]['name']);
-        $this->assertEquals('ali', end($decodedResponse)['name']);
+        $this->assertEquals('dariush', end($decodedResponse)['name']);
     }
 
     /** @test */
@@ -52,7 +52,7 @@ class OrderbyClauseTest extends TestCase
 
         $decodedResponse = $response->decodeResponseJson();
 
-        $this->assertEquals('ali', $decodedResponse[0]['name']);
+        $this->assertEquals('dariush', $decodedResponse[0]['name']);
         $this->assertEquals('reza', end($decodedResponse)['name']);
 
         $query = 'sort=created_at,name';
@@ -61,8 +61,8 @@ class OrderbyClauseTest extends TestCase
 
         $decodedResponse = $response->decodeResponseJson();
 
-        $this->assertEquals('ali', $decodedResponse[0]['name']);
-        $this->assertEquals('mehrad', end($decodedResponse)['name']);
+        $this->assertEquals('mehrad', $decodedResponse[0]['name']);
+        $this->assertEquals('dariush', end($decodedResponse)['name']);
     }
 
     /** @test */
@@ -74,7 +74,7 @@ class OrderbyClauseTest extends TestCase
 
         $decodedResponse = $response->decodeResponseJson();
 
-        $this->assertEquals('ali', $decodedResponse[0]['name']);
+        $this->assertEquals('dariush', $decodedResponse[0]['name']);
         $this->assertEquals('reza', end($decodedResponse)['name']);
 
         $query = 'sort=created_at,desc,name';
@@ -83,20 +83,29 @@ class OrderbyClauseTest extends TestCase
 
         $decodedResponse = $response->decodeResponseJson();
 
-        $this->assertEquals('mehrad', $decodedResponse[0]['name']);
-        $this->assertEquals('ali', end($decodedResponse)['name']);
+        $this->assertEquals('dariush', $decodedResponse[0]['name']);
+        $this->assertEquals('mehrad', end($decodedResponse)['name']);
     }
 
     /** @test */
     public function a_sort_clause_with_two_fields_and_with_two_sort_type_can_be_performed_correctly()
     {
-        $query = 'sort=age,desc,name,desc';
+        $query = 'sort[0]=age,desc&sort[1]=name,desc';
 
         $response = $this->get("/?$query");
 
         $decodedResponse = $response->decodeResponseJson();
 
-        $this->assertEquals('omid', $decodedResponse[0]['name']);
-        $this->assertEquals('reza', end($decodedResponse)['name']);
+        $this->assertEquals('hossein', $decodedResponse[0]['name']);
+        $this->assertEquals('mehrad', end($decodedResponse)['name']);
+
+        $query = 'sort[0]=age,desc&sort[1]=created_at,desc';
+
+        $response = $this->get("/?$query");
+
+        $decodedResponse = $response->decodeResponseJson();
+
+        $this->assertEquals('dariush', $decodedResponse[0]['name']);
+        $this->assertEquals('mehrad', end($decodedResponse)['name']);
     }
 }

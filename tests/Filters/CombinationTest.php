@@ -15,7 +15,7 @@ class CombinationTest extends TestCase
         $decodedResponse = $response->decodeResponseJson();
 
         $response->assertJsonCount(2);
-        $this->assertEquals('reza', $decodedResponse[0]['name']);
+        $this->assertEquals('mehrad', $decodedResponse[0]['name']);
     }
 
     /** @test */
@@ -27,7 +27,7 @@ class CombinationTest extends TestCase
         $decodedResponse = $response->decodeResponseJson();
 
         $response->assertJsonCount(2);
-        $this->assertEquals('mehrad', $decodedResponse[0]['name']);
+        $this->assertEquals('reza', $decodedResponse[0]['name']);
     }
 
     /** @test */
@@ -39,18 +39,18 @@ class CombinationTest extends TestCase
         $decodedResponse = $response->decodeResponseJson();
 
         $response->assertJsonCount(2);
-        $this->assertEquals('omid', $decodedResponse[0]['name']);
+        $this->assertEquals('dariush', $decodedResponse[0]['name']);
     }
 
     /** @test */
     public function combination4()
     {
-        $query = 'in=name,mehrad,reza,omid&not_between=age,22,30&sort=updated_at';
+        $query = 'in=name,mehrad,reza,hossein&not_between=age,22,30&sort=updated_at';
 
         $response = $this->get("/?$query");
         $decodedResponse = $response->decodeResponseJson();
 
         $response->assertJsonCount(2);
-        $this->assertEquals('reza', $decodedResponse[0]['name']);
+        $this->assertEquals('mehrad', $decodedResponse[0]['name']);
     }
 }

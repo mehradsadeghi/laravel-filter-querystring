@@ -9,7 +9,7 @@ class CombinationTest extends TestCase
     /** @test */
     public function unite_two_different_fields_with_greater_and_less()
     {
-        $query = 'greater=age,20&less=created_at,2020-10-01';
+        $query = 'greater=age,20&less=created_at,2020-12-01';
 
         $response = $this->get("/?$query");
 
