@@ -62,7 +62,7 @@ User::select('name')->filter()->get();
 - [Comparisons](#Comparisons)
 - [In](#In)
 - [Like](#Like)
-- [Where clause](#Where-Clause-(default-filter))
+- [Where clause](#Where-Clause-(Default-Filter))
 
 For the purpose of explaining each method, Imagine we have such data in our `users` table:
 
@@ -210,7 +210,7 @@ Output:
 **Bare in mind** that `in` parameter with invalid values will be ignored from query and has no effect to the result. 
 
 ### Like
-Like clause is the equivalent of `like = '%value%'` sql statement.
+Like clause is the equivalent of `like '%value%'` sql statement.
 
 Conventions:
 
