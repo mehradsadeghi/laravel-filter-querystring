@@ -59,12 +59,7 @@ User::select('name')->filter()->get();
 
 #### Available Methods
 - sort
-- greater
-- greater_or_equal
-- less
-- less_or_equal
-- between
-- not_between
+- comparisons
 - in
 - like
 - where clause
@@ -84,7 +79,7 @@ And assume our query is something like this:
 User::filter()->get();
 ```
 
-#### sort
+#### Sort
 Sort is the equivalent of `order by` sql statement which can be used flexible in `FilterQueryString`:
 
 Conventions:
@@ -95,7 +90,6 @@ Conventions:
 ?sort[0]=field1&sort[1]=field2
 ?sort[0]=field1&sort[1]=field2,sort_type
 ?sort[0]=field1,sort_type&sort[1]=field2,sort_type
-
 ```
 
 In User.php
@@ -129,3 +123,60 @@ Output:
 | hossein  | hossein<i></i>@example.com | hossein123 |  22  | 2020-11-01 |
 | reza     | reza<i></i>@example.com    | reza123    |  20  | 2020-10-01 |
 | mehrad   | mehrad<i></i>@example.com  | mehrad123  |  20  | 2020-09-01 |
+
+**Bare in mind** that `sort` parameters with invalid values will be ignored from query and has no effect to the result. 
+
+
+#### Comparisons
+Comparisons are consist of 6 filters:
+- greater
+- greater_or_equal
+- less
+- less_or_equal
+- between
+- not_between
+
+Conventions:
+
+```
+?greater=field,value
+?greater_or_equal=field,value
+?less=field,value
+?less_or_equal=field,value
+?between=field,value1,value2
+?not_between=field,value1,value2
+```
+
+In User.php
+```php
+protected $filters = [
+    'greater',
+    'greater_or_equal',
+    'less',
+    'less_or_equal',
+    'between',
+    'not_between'
+];
+```
+
+Example of `greater`:
+
+`https://example.com?greater=age,20`
+
+Output:
+
+|   name   |           email            |  username  |  age | created_at 
+|:--------:|:--------------------------:|:----------:|:----:|:----------:|
+| hossein  | hossein<i></i>@example.com | hossein123 |  22  | 2020-11-01 |
+| dariush  | dariush<i></i>@example.com | dariush123 |  22  | 2020-12-01 |
+
+Example of `not_between`:
+
+`https://example.com?not_between=age,21,30`
+
+Output:
+
+|   name   |           email            |  username  |  age | created_at 
+|:--------:|:--------------------------:|:----------:|:----:|:----------:|
+| mehrad   | mehrad<i></i>@example.com  | mehrad123  |  20  | 2020-09-01 |
+| reza     | reza<i></i>@example.com    | reza123    |  20  | 2020-10-01 |
