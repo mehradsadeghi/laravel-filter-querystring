@@ -80,7 +80,7 @@ User::filter()->get();
 ```
 
 ### Sort
-Sort is the equivalent of `order by` sql statement which can be used flexible in `FilterQueryString`:
+Sort is the equivalent to `order by` sql statement which can be used flexible in `FilterQueryString`:
 
 Conventions:
 
@@ -184,7 +184,7 @@ Output:
 **Bare in mind** that comparison parameters with invalid values will be ignored from query and has no effect to the result. 
 
 ### In
-In clause is the equivalent of `where in` sql statement.
+In clause is the equivalent to `where in` sql statement.
 
 Convention:
 
@@ -210,7 +210,7 @@ Output:
 **Bare in mind** that `in` parameter with invalid values will be ignored from query and has no effect to the result. 
 
 ### Like
-Like clause is the equivalent of `like '%value%'` sql statement.
+Like clause is the equivalent to `like '%value%'` sql statement.
 
 Conventions:
 
