@@ -92,9 +92,9 @@ Conventions:
 ```
 ?sort=field
 ?sort=field,sort_type
-?sort=field1,field2
-?sort=field1,field2,sort_type
-?sort=field1,sort_type,field2,sort_type
+?sort[0]=field1&sort[1]=field2
+?sort[0]=field1&sort[1]=field2,sort_type
+?sort[0]=field1,sort_type&sort[1]=field2,sort_type
 
 ```
 
