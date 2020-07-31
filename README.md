@@ -96,7 +96,7 @@ In User.php
 ```php
 protected $filters = ['sort'];
 ```
-Single `sort`:
+**Single `sort`**:
 
 `https://example.com?sort=created_at`
 
@@ -109,9 +109,9 @@ Output:
 | hossein  | hossein<i></i>@example.com | hossein123 |  22  | 2020-11-01 |
 | dariush  | dariush<i></i>@example.com | dariush123 |  22  | 2020-12-01 |
 
-*Note that when you're not defining `sort_type`, It'll be `asc` be default.*
+- **Note** that when you're not defining `sort_type`, It'll be `asc` be default.
 
-Multiple `sort`s:
+**Multiple `sort`s**:
 
 `https://example.com?sort[0]=age,desc&sort[1]=created_at,desc`
 
@@ -159,7 +159,7 @@ protected $filters = [
 ];
 ```
 
-Example of `greater`:
+**Example of `greater`**:
 
 `https://example.com?greater=age,20`
 
@@ -170,7 +170,7 @@ Output:
 | hossein  | hossein<i></i>@example.com | hossein123 |  22  | 2020-11-01 |
 | dariush  | dariush<i></i>@example.com | dariush123 |  22  | 2020-12-01 |
 
-Example of `not_between`:
+**Example of `not_between`**:
 
 `https://example.com?not_between=age,21,30`
 
