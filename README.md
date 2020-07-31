@@ -37,7 +37,7 @@ So we have to design a way to make our filters logics separated from each other 
 
 `$ composer require mehradsadeghi/laravel-filter-querystring`
 
-2. Then you should `use` the `FilterQueryString` trait in your model, And define `$filters` property which can be consist of available filters or your custom filters (we'll get to it later).
+2. Then you should `use` the `FilterQueryString` trait in your model, And define `$filters` property which can be consist of [available filters](#Available-Methods) or your [custom filters](#custom-filters).
 
 ```php
 use Mehradsadeghi\FilterQueryString\FilterQueryString;
@@ -58,11 +58,11 @@ User::select('name')->filter()->get();
 ```
 
 ### Available Methods
-- sort
-- comparisons
-- in
-- like
-- where clause
+- [Sort](#Sort)
+- [Comparisons](#Comparisons)
+- [In](#In)
+- [Like](#Like)
+- [Where clause](#Where-Clause-(default-filter))
 
 For the purpose of explaining each method, Imagine we have such data in our `users` table:
 
