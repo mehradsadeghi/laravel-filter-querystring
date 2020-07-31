@@ -259,9 +259,9 @@ Conventions:
 ?field1[0]=value1&field1[1]=value2&field2[0]=value1&field2[1]=value2 
 ```
 
-Assuming we want to filter `name` and `username` database columns, In User.php 
+Assuming we want to filter `name`, `username` and `age` database columns, In User.php 
 ```php
-protected $filters = ['name', 'username'];
+protected $filters = ['name', 'username', 'age'];
 ```
 **Example**:
 
