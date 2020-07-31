@@ -308,3 +308,69 @@ Output:
 
 **Bare in mind** that `default` filter parameter with invalid values will be ignored from query and has no effect to the result. 
 
+### Custom Filters
+Assuming you want to create a filter named `all_except` that retrieves all users except the one that is specified:
+
+In User.php
+```php
+protected $filters = ['all_except'];
+
+public function all_except($query, $value) {
+    $query->where('name', '!=', $value);
+}
+```
+To test our newly added filter:
+
+`https://example.com?all_except=mehrad`
+
+Output:
+
+|   name   |           email            |  username  |  age | created_at 
+|:--------:|:--------------------------:|:----------:|:----:|:----------:|
+| reza     | reza<i></i>@example.com    | reza123    |  20  | 2020-10-01 |
+| hossein  | hossein<i></i>@example.com | hossein123 |  22  | 2020-11-01 |
+| dariush  | dariush<i></i>@example.com | dariush123 |  22  | 2020-12-01 |
+
+**Note** that your custom defined filters have the most priority which means you can even override available filters.
+
+For example lets change `in` filter in a way that only accepts 3 values:
+
+In User.php
+```php
+protected $filters = ['in'];
+
+public function in($query, $value) {
+    
+    $exploded = explode(',', $value);
+
+    if(count($exploded) != 4) {
+        // throwing an exception or whatever you like to do
+    }
+
+    $field = array_shift($exploded);
+
+    $query->whereIn($field, $exploded);
+}
+```
+
+**Another** good example for custom filters are when you don't want to expose your database table's column name. For example assume we don't want to expose that we have a column named `username` in `users` table:
+
+In User.php
+```php
+protected $filters = ['by'];
+
+public function by($query, $value) {
+    $query->where('username', $value);
+}
+```
+
+`https://example.com?by=dariush123`
+
+Output:
+
+|   name   |           email            |  username  |  age | created_at 
+|:--------:|:--------------------------:|:----------:|:----:|:----------:|
+| dariush  | dariush<i></i>@example.com | dariush123 |  22  | 2020-12-01 |
+
+#### Minor Tip
+In order to prevent your model to get messy or populated with filter methods, You can create a trait for it and put everything about filters inside the trait.
