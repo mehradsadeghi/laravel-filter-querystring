@@ -28,7 +28,7 @@ This works, But it's not a good practice.
 
 When the number of parameters starts to grow, The number of these kind of `if` statements also grows and your code gets huge and hard to maintain.
  
-Also it's against the Open/Closed principal of SOLID principals, Because when you have a new parameter, You need to get into your existing code and add a new logic (which may breaks the existing implementations).
+Also it's against the Open/Closed principal of SOLID principles, Because when you have a new parameter, You need to get into your existing code and add a new logic (which may breaks the existing implementations).
 
 So we have to design a way to make our filters logics separated from each other and apply them into the final query, which is the whole idea behind this package.
 
@@ -309,7 +309,9 @@ Output:
 **Bare in mind** that `default` filter parameter with invalid values will be ignored from query and has no effect to the result. 
 
 ### Custom Filters
-Assuming you want to create a filter named `all_except` that retrieves all users except the one that is specified:
+By custom filters you can define your own methods as filters. This helps with the Open/Closed of SOLID principles, Hence each time a new filter is needed, you don't have to edit previous filters and you can just write a separate method for it.
+
+Let's create a custom filter. Assuming you want to create a filter named `all_except` which retrieves all users except the one that is specified:
 
 In User.php
 ```php
