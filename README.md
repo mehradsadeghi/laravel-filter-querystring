@@ -1,7 +1,7 @@
 # Laravel Filter Query String
-#### Filter your queries based on url query string parameters like a breeze.
+### Filter your queries based on url query string parameters like a breeze.
 
-### Describing the Problem
+## Describing the Problem
 
 You have probably faced the situation where you needed to filter your query based on given parameters in url query-string and after developing the logics, You've had such a code:
 
@@ -32,7 +32,7 @@ Also it's against the Open/Closed principal of SOLID principals, Because when yo
 
 So we have to design a way to make our filters logics separated from each other and apply them into the final query, which is the whole idea behind this package.
 
-### Usage
+## Usage
 1. First you need to install the package:
 
 `$ composer require mehradsadeghi/laravel-filter-querystring`
@@ -57,7 +57,7 @@ class User extends Model
 User::select('name')->filter()->get();
 ```
 
-#### Available Methods
+### Available Methods
 - sort
 - comparisons
 - in
@@ -79,7 +79,7 @@ And assume our query is something like this:
 User::filter()->get();
 ```
 
-#### Sort
+### Sort
 Sort is the equivalent of `order by` sql statement which can be used flexible in `FilterQueryString`:
 
 Conventions:
@@ -127,7 +127,7 @@ Output:
 **Bare in mind** that `sort` parameter with invalid values will be ignored from query and has no effect to the result. 
 
 
-#### Comparisons
+### Comparisons
 Comparisons are consist of 6 filters:
 - greater
 - greater_or_equal
@@ -183,7 +183,7 @@ Output:
 
 **Bare in mind** that comparison parameters with invalid values will be ignored from query and has no effect to the result. 
 
-#### In
+### In
 In clause is the equivalent of `where in` sql statement.
 
 Convention:
@@ -209,7 +209,7 @@ Output:
 
 **Bare in mind** that `in` parameter with invalid values will be ignored from query and has no effect to the result. 
 
-#### Like
+### Like
 Like clause is the equivalent of `like = '%value%'` sql statement.
 
 Conventions:
@@ -247,19 +247,19 @@ Output:
 
 **Bare in mind** that `like` parameter with invalid values will be ignored from query and has no effect to the result. 
 
-#### Where Clause (default filter)
-Generally when your query string parameters are not one of previous available methods, It'll get filtered by the default filter which is the `where` sql statement. It's the proper filter when you need to directly filter one of your table's fields.
+### Where Clause (default filter)
+Generally when your query string parameters are not one of previous available methods, It'll get filtered by the default filter which is the `where` sql statement. It's the proper filter when you need to directly filter one of your table's columns.
 
 Conventions:
 
 ```
 ?field=value
-field1=value&field2=value
-field1[0]=value1&field1[1]=value2
-field1[0]=value1&field1[1]=value2&field2[0]=value1&field2[1]=value2 
+?field1=value&field2=value
+?field1[0]=value1&field1[1]=value2
+?field1[0]=value1&field1[1]=value2&field2[0]=value1&field2[1]=value2 
 ```
 
-Assuming we want to filter `name` and `username` database fields, In User.php 
+Assuming we want to filter `name` and `username` database columns, In User.php 
 ```php
 protected $filters = ['name', 'username'];
 ```
