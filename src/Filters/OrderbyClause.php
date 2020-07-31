@@ -27,7 +27,7 @@ class OrderbyClause extends BaseClause implements FilterContract {
 
             [$partOne, $partTwo] = separateCommaValues($value);
 
-            if (in_array($partTwo, ['acs', 'desc'])) {
+            if (in_array($partTwo, ['asc', 'desc'])) {
                 $normalized[$partOne] = $partTwo;
                 continue;
             }
