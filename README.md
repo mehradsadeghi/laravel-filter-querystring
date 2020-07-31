@@ -247,3 +247,64 @@ Output:
 
 **Bare in mind** that `like` parameter with invalid values will be ignored from query and has no effect to the result. 
 
+#### Where Clause (default filter)
+Generally when your query string parameters are not one of previous available methods, It'll get filtered by the default filter which is the `where` sql statement. It's the proper filter when you need to directly filter one of your table's fields.
+
+Conventions:
+
+```
+?field=value
+field1=value&field2=value
+field1[0]=value1&field1[1]=value2
+field1[0]=value1&field1[1]=value2&field2[0]=value1&field2[1]=value2 
+```
+
+Assuming we want to filter `name` and `username` database fields, In User.php 
+```php
+protected $filters = ['name', 'username'];
+```
+**Example**:
+
+`https://example.com?name=mehrad`
+
+Output:
+
+|   name   |           email            |  username  |  age | created_at 
+|:--------:|:--------------------------:|:----------:|:----:|:----------:|
+| mehrad   | mehrad<i></i>@example.com  | mehrad123  |  20  | 2020-09-01 |
+
+
+**Example**:
+
+`https://example.com?age=22&username=dariush123`
+
+Output:
+
+|   name   |           email            |  username  |  age | created_at 
+|:--------:|:--------------------------:|:----------:|:----:|:----------:|
+| dariush  | dariush<i></i>@example.com | dariush123 |  22  | 2020-12-01 |
+
+
+**Example**:
+
+`https://example.com?name[0]=mehrad&name[1]=dariush`
+
+Output:
+
+|   name   |           email            |  username  |  age | created_at 
+|:--------:|:--------------------------:|:----------:|:----:|:----------:|
+| mehrad   | mehrad<i></i>@example.com  | mehrad123  |  20  | 2020-09-01 |
+| dariush  | dariush<i></i>@example.com | dariush123 |  22  | 2020-12-01 |
+
+**Example**:
+
+`https://example.com?name[0]=mehrad&name[1]=dariush&username[0]=mehrad123&username[1]=reza1234`
+
+Output:
+
+|   name   |           email            |  username  |  age | created_at 
+|:--------:|:--------------------------:|:----------:|:----:|:----------:|
+| mehrad   | mehrad<i></i>@example.com  | mehrad123  |  20  | 2020-09-01 |
+
+**Bare in mind** that `default` filter parameter with invalid values will be ignored from query and has no effect to the result. 
+
