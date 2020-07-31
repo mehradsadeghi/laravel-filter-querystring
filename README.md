@@ -1,5 +1,5 @@
 # Laravel Filter Query String
-### Filter your queries based on url query string parameters like a breeze.
+#### Filter your queries based on url query string parameters like a breeze.
 
 ## Describing the Problem
 
