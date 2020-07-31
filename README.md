@@ -180,3 +180,31 @@ Output:
 |:--------:|:--------------------------:|:----------:|:----:|:----------:|
 | mehrad   | mehrad<i></i>@example.com  | mehrad123  |  20  | 2020-09-01 |
 | reza     | reza<i></i>@example.com    | reza123    |  20  | 2020-10-01 |
+
+**Bare in mind** that comparison parameters with invalid values will be ignored from query and has no effect to the result. 
+
+#### In
+In clause is the equivalent of `where in` sql statement.
+
+Convention:
+
+```
+?in=field,value1,value2
+```
+
+In User.php
+```php
+protected $filters = ['in'];
+```
+**Example**:
+
+`https://example.com?in=name,mehrad,reza`
+
+Output:
+
+|   name   |           email            |  username  |  age | created_at 
+|:--------:|:--------------------------:|:----------:|:----:|:----------:|
+| mehrad   | mehrad<i></i>@example.com  | mehrad123  |  20  | 2020-09-01 |
+| reza     | reza<i></i>@example.com    | reza123    |  20  | 2020-10-01 |
+
+**Bare in mind** that `in` parameter with invalid values will be ignored from query and has no effect to the result. 
