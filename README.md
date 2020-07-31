@@ -109,7 +109,7 @@ Output:
 | hossein  | hossein<i></i>@example.com | hossein123 |  22  | 2020-11-01 |
 | dariush  | dariush<i></i>@example.com | dariush123 |  22  | 2020-12-01 |
 
-- **Note** that when you're not defining `sort_type`, It'll be `asc` be default.
+- **Note** that when you're not defining `sort_type`, It'll be `asc` by default.
 
 **Multiple `sort`s**:
 
@@ -124,7 +124,7 @@ Output:
 | reza     | reza<i></i>@example.com    | reza123    |  20  | 2020-10-01 |
 | mehrad   | mehrad<i></i>@example.com  | mehrad123  |  20  | 2020-09-01 |
 
-**Bare in mind** that `sort` parameters with invalid values will be ignored from query and has no effect to the result. 
+**Bare in mind** that `sort` parameter with invalid values will be ignored from query and has no effect to the result. 
 
 
 #### Comparisons
@@ -208,3 +208,42 @@ Output:
 | reza     | reza<i></i>@example.com    | reza123    |  20  | 2020-10-01 |
 
 **Bare in mind** that `in` parameter with invalid values will be ignored from query and has no effect to the result. 
+
+#### Like
+Like clause is the equivalent of `like = '%value%'` sql statement.
+
+Conventions:
+
+```
+?like=field,value
+?like[0]=field1,value1&like[1]=field2,value2
+```
+
+In User.php
+```php
+protected $filters = ['like'];
+```
+**Single `like`**:
+
+`https://example.com?like=name,meh`
+
+Output:
+
+|   name   |           email            |  username  |  age | created_at 
+|:--------:|:--------------------------:|:----------:|:----:|:----------:|
+| mehrad   | mehrad<i></i>@example.com  | mehrad123  |  20  | 2020-09-01 |
+
+
+**Multiple `like`s**:
+
+`https://example.com?like[0]=name,meh&like[1]=username,dar`
+
+Output:
+
+|   name   |           email            |  username  |  age | created_at 
+|:--------:|:--------------------------:|:----------:|:----:|:----------:|
+| mehrad   | mehrad<i></i>@example.com  | mehrad123  |  20  | 2020-09-01 |
+| dariush  | dariush<i></i>@example.com | dariush123 |  22  | 2020-12-01 |
+
+**Bare in mind** that `like` parameter with invalid values will be ignored from query and has no effect to the result. 
+
