@@ -62,7 +62,7 @@ User::select('name')->filter()->get();
 - [Comparisons](#Comparisons)
 - [In](#In)
 - [Like](#Like)
-- [Where clause](#Where-Clause-(Default-Filter))
+- [Where clause](#Where-Clause-Default-Filter)
 
 For the purpose of explaining each method, Imagine we have such data in our `users` table:
 
