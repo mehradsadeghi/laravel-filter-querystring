@@ -2,6 +2,7 @@
 
 namespace Mehradsadeghi\FilterQueryString\Filters;
 
+use Illuminate\Database\Eloquent\Builder;
 use InvalidArgumentException;
 use Mehradsadeghi\FilterQueryString\FilterContract;
 
@@ -9,17 +10,19 @@ class WhereLikeClause extends BaseClause implements FilterContract {
 
     protected $validationMessage = 'you should provide comma separated values for your where like clause.';
 
-    public function apply()
+    public function apply($query): Builder
     {
         $normalized = $this->normalizeValues();
 
-        $this->query->where(function($query) use($normalized) {
+        $query->where(function($query) use($normalized) {
             foreach ($normalized as $field => $values) {
                 foreach ($values as $value) {
                     $query->orWhere($field, 'like', "%$value%");
                 }
             }
         });
+
+        return $query;
     }
 
     public function validate($value)

@@ -21,4 +21,14 @@ class CustomFilterTest extends TestCase
 
         $response->assertJsonCount(User::count());
     }
+
+    /** @test */
+    public function young_and_old_custom_method()
+    {
+        $query = 'young=1&old=1';
+
+        $response = $this->get("/?$query");
+
+        $response->assertJsonCount(0);
+    }
 }

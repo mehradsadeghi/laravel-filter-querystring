@@ -2,6 +2,7 @@
 
 namespace Mehradsadeghi\FilterQueryString\Filters;
 
+use Illuminate\Database\Eloquent\Builder;
 use InvalidArgumentException;
 use Mehradsadeghi\FilterQueryString\FilterContract;
 
@@ -9,11 +10,11 @@ class WhereInClause extends BaseClause implements FilterContract {
 
     protected $validationMessage = 'you should provide comma separated values for your where in clause.';
 
-    public function apply()
+    public function apply($query): Builder
     {
         [$field, $values] = $this->normalizeValues();
 
-        $this->query->whereIn($field, $values);
+        return $query->whereIn($field, $values);
     }
 
     public function validate($value)

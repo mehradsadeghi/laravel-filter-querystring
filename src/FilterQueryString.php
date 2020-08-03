@@ -2,11 +2,15 @@
 
 namespace Mehradsadeghi\FilterQueryString;
 
-use Closure;
-use InvalidArgumentException;
+use Illuminate\Pipeline\Pipeline;
 use Mehradsadeghi\FilterQueryString\Filters\ComparisonClauses\Between\{Between, NotBetween};
 use Mehradsadeghi\FilterQueryString\Filters\ComparisonClauses\{GreaterOrEqualTo, GreaterThan, LessOrEqualTo, LessThan};
-use Mehradsadeghi\FilterQueryString\Filters\{OrderbyClause, WhereClause, WhereInClause, WhereLikeClause};
+use Mehradsadeghi\FilterQueryString\Filters\{BaseClause,
+    Blank,
+    OrderbyClause,
+    WhereClause,
+    WhereInClause,
+    WhereLikeClause};
 
 trait FilterQueryString {
 
@@ -25,36 +29,16 @@ trait FilterQueryString {
 
     public function scopeFilter($query)
     {
-        foreach($this->getFilters() as $filter => $values) {
+        $filters = collect($this->getFilters())->map(function($values, $filter) use ($query) {
+            return $this->resolve($query, $filter, $values);
+        })->toArray();
 
-            $resolvedFilter = $this->resolveFilter($filter);
+        return app(Pipeline::class)
+            ->send($query)
+            ->through($filters)
+            ->thenReturn();
 
-            try {
-
-                // if resolved filter is a user custom defined filter
-                if($resolvedFilter instanceof Closure) {
-                    $resolvedFilter($query, $values);
-                    continue;
-                }
-
-                app()->resolving($resolvedFilter, function($object) use($values) {
-                    $object->validate($values);
-                });
-
-                $params = [
-                    'query' => $query,
-                    'filter' => $filter,
-                    'values' => $values,
-                ];
-
-                app($resolvedFilter, $params)->apply();
-
-            } catch (InvalidArgumentException $exception) {
-                continue;
-            }
-        }
-
-        return $query;
+        // todo user custom functions
     }
 
     private function getFilters()
@@ -66,22 +50,36 @@ trait FilterQueryString {
         return array_filter(request()->query(), $filter, ARRAY_FILTER_USE_KEY) ?? [];
     }
 
-    private function resolveFilter($filter) {
+    private function resolve($query, $filter, $values) {
 
         if(method_exists($this, $filter)) {
-            return $this->getClosure($filter);
+            $abstract = $this->makeAsbtract($filter);
+            $this->makeCallable($abstract, $query, $values);
+            return $abstract;
         }
 
         if(!empty($this->availableFilters[$filter])) {
-            return $this->availableFilters[$filter];
+            return app($this->availableFilters[$filter], [
+                'filter' => $filter,
+                'values' => $values,
+            ]);
         }
 
-        return $this->availableFilters['default'];
+        return app($this->availableFilters['default'], [
+            'filter' => $filter,
+            'values' => $values,
+        ]);
     }
 
-    private function getClosure(string $filter) {
-        return function ($query, $values) use ($filter) {
-            return $this->{$filter}($query, $values);
-        };
+    private function makeAsbtract($filter) {
+        return static::class.'@'.$filter;
+    }
+
+    private function makeCallable($abstract, $query, $values) {
+        app()->bind($abstract, function () use ($abstract, $query, $values) {
+            return function ($query, $next) use ($abstract, $values) {
+                return app()->call($abstract, [$next($query), $values]);
+            };
+        });
     }
 }

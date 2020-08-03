@@ -2,18 +2,20 @@
 
 namespace Mehradsadeghi\FilterQueryString\Filters;
 
-use InvalidArgumentException;
+use Illuminate\Database\Eloquent\Builder;
 use Mehradsadeghi\FilterQueryString\FilterContract;
 
 class OrderbyClause extends BaseClause implements FilterContract {
 
     protected $validationMessage = 'you should provide a value for your order by clause.';
 
-    public function apply()
+    public function apply($query): Builder
     {
         foreach ($this->normalizeValues() as $field => $order) {
-            $this->query->orderBy($field, $order);
+            $query->orderBy($field, $order);
         }
+
+        return $query;
     }
 
     public function validate($value) {

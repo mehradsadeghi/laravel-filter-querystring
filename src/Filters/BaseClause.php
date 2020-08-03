@@ -2,20 +2,37 @@
 
 namespace Mehradsadeghi\FilterQueryString\Filters;
 
+use Illuminate\Database\Eloquent\Builder;
 use InvalidArgumentException;
 
 abstract class BaseClause {
 
-    public $query;
-    public $filter;
-    public $values;
+    protected $query;
+    protected $filter;
+    protected $values;
 
-    public function __construct($query, $filter, $values)
-    {
-        $this->query = $query;
-        $this->filter = $filter;
+    public function __construct($values, $filter) {
+
         $this->values = $values;
+        $this->filter = $filter;
     }
+
+    public function handle($query, $nextFilter)
+    {
+        $query = $nextFilter($query);
+
+        try {
+
+            static::validate($this->values);
+
+        } catch (InvalidArgumentException $exception) {
+            return $query;
+        }
+
+        return $this->apply($query);
+    }
+
+    abstract protected function apply($query): Builder;
 
     public function validate($value)
     {

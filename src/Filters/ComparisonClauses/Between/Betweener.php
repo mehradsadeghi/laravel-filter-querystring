@@ -2,17 +2,20 @@
 
 namespace Mehradsadeghi\FilterQueryString\Filters\ComparisonClauses\Between;
 
+use Illuminate\Database\Eloquent\Builder;
 use InvalidArgumentException;
 
 trait Betweener
 {
-    public function apply()
+    public function apply($query): Builder
     {
         $this->normalizeValues($this->values);
 
         foreach($this->normalized as $field => $values) {
-            $this->query->{$this->method}($field, $values);
+            $query->{$this->method}($field, $values);
         }
+
+        return $query;
     }
 
     public function validate($value)

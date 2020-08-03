@@ -2,6 +2,7 @@
 
 namespace Mehradsadeghi\FilterQueryString\Filters\ComparisonClauses;
 
+use Illuminate\Database\Eloquent\Builder;
 use InvalidArgumentException;
 use Mehradsadeghi\FilterQueryString\Filters\BaseClause;
 
@@ -13,16 +14,19 @@ abstract class BaseComparison extends BaseClause
     protected $method;
     protected $normalized = [];
 
-    public function apply()
+    public function apply($query): Builder
     {
         $this->normalizeValues($this->values);
 
         foreach ($this->normalized as $field => $value) {
-            $this->query->{$this->determineMethod($value)}($field, $this->operator, $value);
+            $query->{$this->determineMethod($value)}($field, $this->operator, $value);
         }
+
+        return $query;
     }
 
-    public function validate($value) {
+    public function validate($value)
+    {
 
         parent::validate($value);
 
