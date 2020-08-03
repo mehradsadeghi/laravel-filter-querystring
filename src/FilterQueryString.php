@@ -3,19 +3,10 @@
 namespace Mehradsadeghi\FilterQueryString;
 
 use Closure;
-use Illuminate\Support\Facades\Request;
 use InvalidArgumentException;
-use Mehradsadeghi\FilterQueryString\Filters\ComparisonClause;
-use Mehradsadeghi\FilterQueryString\Filters\ComparisonClauses\Between\NotBetween;
-use Mehradsadeghi\FilterQueryString\Filters\ComparisonClauses\GreaterOrEqualTo;
-use Mehradsadeghi\FilterQueryString\Filters\ComparisonClauses\Between\Between;
-use Mehradsadeghi\FilterQueryString\Filters\ComparisonClauses\GreaterThan;
-use Mehradsadeghi\FilterQueryString\Filters\ComparisonClauses\LessOrEqualTo;
-use Mehradsadeghi\FilterQueryString\Filters\ComparisonClauses\LessThan;
-use Mehradsadeghi\FilterQueryString\Filters\OrderbyClause;
-use Mehradsadeghi\FilterQueryString\Filters\WhereClause;
-use Mehradsadeghi\FilterQueryString\Filters\WhereInClause;
-use Mehradsadeghi\FilterQueryString\Filters\WhereLikeClause;
+use Mehradsadeghi\FilterQueryString\Filters\ComparisonClauses\Between\{Between, NotBetween};
+use Mehradsadeghi\FilterQueryString\Filters\ComparisonClauses\{GreaterOrEqualTo, GreaterThan, LessOrEqualTo, LessThan};
+use Mehradsadeghi\FilterQueryString\Filters\{OrderbyClause, WhereClause, WhereInClause, WhereLikeClause};
 
 trait FilterQueryString {
 
@@ -72,7 +63,7 @@ trait FilterQueryString {
             return $this->unguardFilters != true ? in_array($key, $this->filters ?? []) : true;
         };
 
-        return array_filter(Request::query(), $filter, ARRAY_FILTER_USE_KEY) ?? [];
+        return array_filter(request()->query(), $filter, ARRAY_FILTER_USE_KEY) ?? [];
     }
 
     private function resolveFilter($filter) {
