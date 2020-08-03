@@ -29,7 +29,7 @@ abstract class BaseClause {
             return $query;
         }
 
-        return $this->apply($query);
+        return static::apply($query);
     }
 
     abstract protected function apply($query): Builder;
