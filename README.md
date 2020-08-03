@@ -318,7 +318,7 @@ In User.php
 protected $filters = ['all_except'];
 
 public function all_except($query, $value) {
-    $query->where('name', '!=', $value);
+    return $query->where('name', '!=', $value);
 }
 ```
 To test our newly added filter:
@@ -351,7 +351,7 @@ public function in($query, $value) {
 
     $field = array_shift($exploded);
 
-    $query->whereIn($field, $exploded);
+    return $query->whereIn($field, $exploded);
 }
 ```
 
@@ -362,7 +362,7 @@ In User.php
 protected $filters = ['by'];
 
 public function by($query, $value) {
-    $query->where('username', $value);
+    return $query->where('username', $value);
 }
 ```
 
