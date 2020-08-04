@@ -393,9 +393,9 @@ In order to prevent your model to get messy or populated with filter methods, Yo
 ### Conditional Filters
 The `$filters` property in your model is acting kind of global for that model. It means when you use `filter()` method on your eloquent query, it'll always performs all the `$filters` filters.
 
-There might be situations that based on a condition you need to specify which filters exactly you with to be filtered.
+There might be situations that based on a condition you need to specify which filters exactly you wish to be filtered.
 
-To achieve this you can specify you desired filters as arguments in `filter()` method.
+To achieve this you can specify your desired filters as arguments in `filter()` method.
 
 Example:
 
@@ -413,9 +413,9 @@ Output:
 | mehrad   | mehrad<i></i>@example.com  | mehrad123  |  20  | 2020-09-01 |
 | reza     | reza<i></i>@example.com    | reza123    |  20  | 2020-10-01 |
 
-If the `in` arguments was not specified, The result of query would be only one record (`mehrad`).
+If the `in` argument was not specified, The result of query would be only one record (`mehrad`).
 
-Example:
+Another example:
 
 In your query:
 ```php
