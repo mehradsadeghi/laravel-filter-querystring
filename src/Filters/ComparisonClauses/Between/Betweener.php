@@ -3,7 +3,6 @@
 namespace Mehradsadeghi\FilterQueryString\Filters\ComparisonClauses\Between;
 
 use Illuminate\Database\Eloquent\Builder;
-use InvalidArgumentException;
 
 trait Betweener
 {
@@ -18,11 +17,13 @@ trait Betweener
         return $query;
     }
 
-    public function validate($value)
+    public function validate($value): bool
     {
         if (count(separateCommaValues($value)) != 3) {
-            throw new InvalidArgumentException($this->validationMessage);
+            return false;
         }
+
+        return true;
     }
 
     protected function normalizeValues($values)

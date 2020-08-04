@@ -3,13 +3,10 @@
 namespace Mehradsadeghi\FilterQueryString\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
-use Mehradsadeghi\FilterQueryString\FilterContract;
 
-class OrderbyClause extends BaseClause implements FilterContract {
+class OrderbyClause extends BaseClause {
 
-    protected $validationMessage = 'you should provide a value for your order by clause.';
-
-    public function apply($query): Builder
+    protected function apply($query): Builder
     {
         foreach ($this->normalizeValues() as $field => $order) {
             $query->orderBy($field, $order);
@@ -18,10 +15,8 @@ class OrderbyClause extends BaseClause implements FilterContract {
         return $query;
     }
 
-    public function validate($value) {
-        foreach ((array)$value as $item) {
-            parent::validate($item);
-        }
+    public function validate($value): bool {
+        return !in_array(null, (array)$value);
     }
 
     private function normalizeValues()

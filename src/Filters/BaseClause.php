@@ -3,7 +3,6 @@
 namespace Mehradsadeghi\FilterQueryString\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
-use InvalidArgumentException;
 
 abstract class BaseClause {
 
@@ -21,11 +20,7 @@ abstract class BaseClause {
     {
         $query = $nextFilter($query);
 
-        try {
-
-            static::validate($this->values);
-
-        } catch (InvalidArgumentException $exception) {
+        if(static::validate($this->values) === false) {
             return $query;
         }
 
@@ -34,10 +29,5 @@ abstract class BaseClause {
 
     abstract protected function apply($query): Builder;
 
-    public function validate($value)
-    {
-        if (is_null($value)) {
-            throw new InvalidArgumentException($this->validationMessage ?? '');
-        }
-    }
+    abstract protected function validate($value): bool;
 }

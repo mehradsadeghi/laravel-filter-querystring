@@ -2,9 +2,7 @@
 
 namespace Mehradsadeghi\FilterQueryString\Filters\ComparisonClauses;
 
-use Mehradsadeghi\FilterQueryString\FilterContract;
-
-class GreaterThan extends BaseComparison implements FilterContract
+class GreaterThan extends BaseComparison
 {
     public $operator = '>';
 }

@@ -3,12 +3,8 @@
 namespace Mehradsadeghi\FilterQueryString\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
-use InvalidArgumentException;
-use Mehradsadeghi\FilterQueryString\FilterContract;
 
-class WhereInClause extends BaseClause implements FilterContract {
-
-    protected $validationMessage = 'you should provide comma separated values for your where in clause.';
+class WhereInClause extends BaseClause {
 
     public function apply($query): Builder
     {
@@ -17,13 +13,17 @@ class WhereInClause extends BaseClause implements FilterContract {
         return $query->whereIn($field, $values);
     }
 
-    public function validate($value)
+    public function validate($value): bool
     {
-        parent::validate($value);
+        if(is_null($value)) {
+            return false;
+        }
 
         if(count(separateCommaValues($value)) < 2) {
-            throw new InvalidArgumentException($this->validationMessage);
+            return false;
         }
+
+        return true;
     }
 
     private function normalizeValues()

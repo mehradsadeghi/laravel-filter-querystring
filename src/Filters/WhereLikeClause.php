@@ -3,12 +3,8 @@
 namespace Mehradsadeghi\FilterQueryString\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
-use InvalidArgumentException;
-use Mehradsadeghi\FilterQueryString\FilterContract;
 
-class WhereLikeClause extends BaseClause implements FilterContract {
-
-    protected $validationMessage = 'you should provide comma separated values for your where like clause.';
+class WhereLikeClause extends BaseClause {
 
     public function apply($query): Builder
     {
@@ -25,15 +21,19 @@ class WhereLikeClause extends BaseClause implements FilterContract {
         return $query;
     }
 
-    public function validate($value)
+    public function validate($value): bool
     {
-        parent::validate($value);
+        if (is_null($value)) {
+            return false;
+        }
 
         foreach ((array) $value as $item) {
             if(count(separateCommaValues($item)) != 2) {
-                throw new InvalidArgumentException($this->validationMessage);
+                return false;
             }
         }
+
+        return true;
     }
 
     private function normalizeValues()

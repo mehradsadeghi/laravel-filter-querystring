@@ -3,17 +3,18 @@
 namespace Mehradsadeghi\FilterQueryString\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
-use Mehradsadeghi\FilterQueryString\FilterContract;
 
-class WhereClause extends BaseClause implements FilterContract {
+class WhereClause extends BaseClause {
 
-    protected $validationMessage = 'you should provide a value for your where clause.';
-
-    public function apply($query): Builder
+    protected function apply($query): Builder
     {
         $method = is_array($this->values) ? 'orWhere' : 'andWhere';
 
         return $this->{$method}($query, $this->filter, $this->values);
+    }
+
+    protected function validate($value): bool {
+        return !is_null($value);
     }
 
     private function orWhere($query, $filter, $values)
