@@ -26,8 +26,8 @@ trait FilterQueryString {
 
     public function scopeFilter($query) {
 
-        $filters = collect($this->getFilters())->map(function ($values, $filter) use ($query) {
-            return $this->resolve($query, $filter, $values);
+        $filters = collect($this->getFilters())->map(function ($values, $filter) {
+            return $this->resolve($filter, $values);
         })->toArray();
 
         return app(Pipeline::class)
