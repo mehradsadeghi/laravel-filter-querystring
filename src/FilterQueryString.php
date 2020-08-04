@@ -24,8 +24,8 @@ trait FilterQueryString {
         'like' => WhereLikeClause::class,
     ];
 
-    public function scopeFilter($query) {
-
+    public function scopeFilter($query)
+    {
         $filters = collect($this->getFilters())->map(function ($values, $filter) {
             return $this->resolve($filter, $values);
         })->toArray();
@@ -36,8 +36,8 @@ trait FilterQueryString {
             ->thenReturn();
     }
 
-    private function getFilters() {
-
+    private function getFilters()
+    {
         $filter = function ($key) {
             return $this->unguardFilters != true ? in_array($key, $this->filters ?? []) : true;
         };
