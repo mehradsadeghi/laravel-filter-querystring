@@ -1,6 +1,19 @@
 # Laravel Filter Query String
 #### Filter your queries based on url query string parameters like a breeze.
 
+## Table of Content
+- [Describing the Problem](#Describing-the-Problem)
+- [Usage](#Usage)
+    - [Installation](#Usage)
+    - [Available Filters](#Available-Methods)
+        - [Sort](#Sort)
+        - [Comparisons](#Comparisons)
+        - [In](#In)
+        - [Like](#Like)
+        - [Where clause](#Where-Clause-Default-Filter)
+    - [Custom Filters](#Custom-Filters)
+    - [Conditional Filters](#Conditional-Filters)
+
 ## Describing the Problem
 
 You have probably faced the situation where you needed to filter your query based on given parameters in url query-string and after developing the logics, You've had such a code:
@@ -376,3 +389,44 @@ Output:
 
 #### Minor Tip
 In order to prevent your model to get messy or populated with filter methods, You can create a trait for it and put everything about filters inside the trait.
+
+### Conditional Filters
+The `$filters` property in your model is acting kind of global for that model. It means when you use `filter()` method on your eloquent query, it'll always performs all the `$filters` filters.
+
+There might be situations that based on a condition you need to specify which filters exactly you with to be filtered.
+
+To achieve this you can specify you desired filters as arguments in `filter()` method.
+
+Example:
+
+In your query:
+```php
+User::filter('in')->get();
+```
+
+`in=name,mehrad,reza&like=name,mehrad`
+
+Output:
+
+|   name   |           email            |  username  |  age | created_at 
+|:--------:|:--------------------------:|:----------:|:----:|:----------:|
+| mehrad   | mehrad<i></i>@example.com  | mehrad123  |  20  | 2020-09-01 |
+| reza     | reza<i></i>@example.com    | reza123    |  20  | 2020-10-01 |
+
+If the `in` arguments was not specified, The result of query would be only one record (`mehrad`).
+
+Example:
+
+In your query:
+```php
+User::filter('like', 'name')->get();
+```
+
+`like=name,mehrad,reza,dariush,hossein&name[0]=mehrad&name[1]=hossein&username=mehrad`
+
+Output:
+
+|   name   |           email            |  username  |  age | created_at 
+|:--------:|:--------------------------:|:----------:|:----:|:----------:|
+| mehrad   | mehrad<i></i>@example.com  | mehrad123  |  20  | 2020-09-01 |
+| hossein  | hossein<i></i>@example.com | hossein123 |  22  | 2020-11-01 |

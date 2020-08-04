@@ -25,7 +25,7 @@ class CustomParametersTest extends TestCase
     public function filter_with_specific_parameters_can_be_performed_correctly2()
     {
         Route::get('/', function () {
-            return User::select('name')->filter('in', 'name')->get();
+            return User::select('name')->filter('like', 'name')->get();
         });
 
         $query = 'like=name,mehrad,reza,dariush,hossein&name[0]=mehrad&name[1]=hossein&username=mehrad';
