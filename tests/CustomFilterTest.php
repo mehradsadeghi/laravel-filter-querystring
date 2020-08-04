@@ -31,4 +31,14 @@ class CustomFilterTest extends TestCase
 
         $response->assertJsonCount(0);
     }
+
+    /** @test */
+    public function young_custom_method_and_in()
+    {
+        $query = 'young=0&in=name,mehrad';
+
+        $response = $this->get("/?$query");
+
+        $response->assertJsonCount(1);
+    }
 }
