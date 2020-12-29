@@ -4,3 +4,4 @@ notes
 vendor
 docker
 docker-compose.yaml
+.phpunit.result.cache

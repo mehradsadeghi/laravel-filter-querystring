@@ -33,7 +33,7 @@ trait Resolvings {
     private function getClosure($callable, $values)
     {
         return function ($query, $nextFilter) use ($callable, $values) {
-            return app()->call($callable, [$nextFilter($query), $values]);
+            return app()->call($callable, ['query' => $nextFilter($query), 'values' => $values]);
         };
     }
 }
