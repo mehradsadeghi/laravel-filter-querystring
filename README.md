@@ -1,6 +1,8 @@
 # Laravel Filter Query String
 #### Filter your queries based on url query string parameters like a breeze.
 
+*Compatible with Laravel **5.x** **6.x** **7.x** **8.x***.
+
 ## Table of Content
 - [Describing the Problem](#Describing-the-Problem)
 - [Usage](#Usage)
