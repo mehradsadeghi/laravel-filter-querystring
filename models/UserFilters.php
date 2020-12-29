@@ -22,18 +22,18 @@ trait UserFilters {
         'old'
     ];
 
-    public function young($query, $values) {
+    public function young($query, $value) {
 
-        if($values == 1) {
+        if($value == 1) {
             $query->where('age', '<', 20);
         }
 
         return $query;
     }
 
-    public function old($query, $values) {
+    public function old($query, $value) {
 
-        if($values == 1) {
+        if($value == 1) {
             $query->where('age', '>', 20);
         }
 
