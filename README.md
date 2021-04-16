@@ -432,3 +432,16 @@ Output:
 |:--------:|:--------------------------:|:----------:|:----:|:----------:|
 | mehrad   | mehrad<i></i>@example.com  | mehrad123  |  20  | 2020-09-01 |
 | hossein  | hossein<i></i>@example.com | hossein123 |  22  | 2020-11-01 |
+----------------------------------------------
+
+### Your Stars Matter 
+If you find this package useful and you want to encourage me to maintain and work on it, Just press the star button to declare your willing.
+
+----------------------------------------------
+
+### Reward me with a cup of tea :tea:
+
+Send me as much as a cup of tea worth in your country, so I'll have the energy to maintain this package.
+
+- Ethereum: 0x2D5BFdEc132F9F0E9498Fb0B58C800db4007D154
+
