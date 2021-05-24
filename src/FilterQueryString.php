@@ -45,6 +45,6 @@ trait FilterQueryString {
             return $this->unguardFilters != true ? in_array($key, $filters) : true;
         };
 
-        return array_filter(request()->query(), $filter, ARRAY_FILTER_USE_KEY) ?? [];
+        return array_filter(request()->input(), $filter, ARRAY_FILTER_USE_KEY) ?? [];
     }
 }
