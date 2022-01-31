@@ -26,6 +26,14 @@ trait FilterQueryString {
 
     public function scopeFilter($query, ...$filters)
     {
+
+        if($this->customClassFilters && is_array($this->customClassFilters)) {
+
+            foreach($this->customClassFilters as $key=>$value) {
+                $this->availableFilters[$key] = $value;
+            }
+        }
+
         $filters = collect($this->getFilters($filters))->map(function ($values, $filter) {
             return $this->resolve($filter, $values);
         })->toArray();
