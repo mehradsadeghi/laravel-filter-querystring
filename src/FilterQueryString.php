@@ -8,7 +8,6 @@ use Mehradsadeghi\FilterQueryString\Filters\ComparisonClauses\{GreaterOrEqualTo,
 use Mehradsadeghi\FilterQueryString\Filters\ComparisonClauses\Between\{Between, NotBetween};
 
 trait FilterQueryString {
-
     use Resolvings;
 
     private $availableFilters = [
@@ -24,12 +23,16 @@ trait FilterQueryString {
         'like' => WhereLikeClause::class,
     ];
 
-    public function scopeFilter($query, ...$filters)
+    public function scopeFilter($query,...$filters)
     {
-        $filters = collect($this->getFilters($filters))->map(function ($values, $filter) {
-            return $this->resolve($filter, $values);
-        })->toArray();
-
+        $filters = collect($this->getFilters($filters))
+            ->filter(function ($value,$key){
+                return !property_exists($this, "searchable") || $this->isColumnSearchable($value, $key);
+            })
+            ->map(function ($values, $filter) {
+                return $this->resolve($filter, $values);
+        })
+            ->toArray();
         return app(Pipeline::class)
             ->send($query)
             ->through($filters)
@@ -39,12 +42,14 @@ trait FilterQueryString {
     private function getFilters($filters)
     {
         $filter = function ($key) use($filters) {
-
             $filters = $filters ?: $this->filters ?: [];
 
             return $this->unguardFilters != true ? in_array($key, $filters) : true;
         };
-
         return array_filter(request()->query(), $filter, ARRAY_FILTER_USE_KEY) ?? [];
+    }
+    public function isColumnSearchable($values,$key):bool {
+        [$column]=explode(",",$values);
+        return in_array($column,$this->searchable);
     }
 }
