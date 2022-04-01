@@ -13,7 +13,7 @@ class WhereLikeClause extends BaseClause {
         $query->where(function($query) use($normalized) {
             foreach ($normalized as $field => $values) {
                 foreach ($values as $value) {
-                    $query->orWhere($field, 'like', "%$value%");
+                    $query->orWhere($field, 'like', "$value");
                 }
             }
         });
