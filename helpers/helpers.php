@@ -17,6 +17,9 @@ if (!function_exists('hasComma')) {
 if (!function_exists('isDateTime')) {
     function isDateTime($value)
     {
+         if (is_numeric($value)) {
+            return false;
+        }
         return date_parse($value)['error_count'] < 1;
     }
 }
