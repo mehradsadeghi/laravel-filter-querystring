@@ -42,7 +42,7 @@ trait FilterQueryString {
 
             $filters = $filters ?: $this->filters ?: [];
 
-            return $this->unguardFilters != true ? in_array($key, $filters) : true;
+            return $this->unguardFilters != true ? (in_array($key, $filters) || array_key_exists($key, $filters)) : true;
         };
 
         return array_filter(request()->query(), $filter, ARRAY_FILTER_USE_KEY) ?? [];

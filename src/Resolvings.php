@@ -8,6 +8,8 @@ trait Resolvings {
     {
         if($this->isCustomFilter($filterName)) {
             return $this->resolveCustomFilter($filterName, $values);
+        } elseif ($this->isCustomFilter($this->filters[$filterName] ?? false)) {
+            return $this->resolveCustomFilter($this->filters[$filterName], $values);
         }
 
         $availableFilter = $this->availableFilters[$filterName] ?? $this->availableFilters['default'];
@@ -27,7 +29,7 @@ trait Resolvings {
 
     private function isCustomFilter($filterName)
     {
-        return method_exists($this, $filterName);
+        return $filterName && method_exists($this, $filterName);
     }
 
     private function getClosure($callable, $values)

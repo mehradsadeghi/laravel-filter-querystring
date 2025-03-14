@@ -19,7 +19,9 @@ trait UserFilters {
         'username',
         'email',
         'young',
-        'old'
+        'old',
+        'alias_young' => 'filter_young',
+        'alias_old' => 'filter_old',
     ];
 
     public function young($query, $value) {
@@ -32,6 +34,24 @@ trait UserFilters {
     }
 
     public function old($query, $value) {
+
+        if($value == 1) {
+            $query->where('age', '>', 20);
+        }
+
+        return $query;
+    }
+
+    public function filter_young($query, $value) {
+
+        if($value == 1) {
+            $query->where('age', '<', 20);
+        }
+
+        return $query;
+    }
+
+    public function filter_old($query, $value) {
 
         if($value == 1) {
             $query->where('age', '>', 20);
