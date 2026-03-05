@@ -1,50 +1,50 @@
 {
-  "name": "mehradsadeghi/laravel-filter-querystring",
-  "description": "Filter your queries based on url query string parameters like a breeze.",
-  "keywords": [
-    "query",
-    "query-string",
-    "querystring",
-    "filter",
-    "filter-querystring",
-    "filter-query-string"
-  ],
-  "homepage": "https://github.com/mehradsadeghi/laravel-filter-querystring",
-  "license": "MIT",
-  "type": "library",
-  "authors": [
-    {
-      "name": "Mehrad Sadeghi",
-      "email": "mehrad177@gmail.com",
-      "role": "Developer"
-    }
-  ],
-  "require": {
-    "php": "^7.1|^8.0",
-    "laravel/framework": "5.*|6.*|7.*|8.*|9.*|10.*|11.*|12.*"
-  },
-  "require-dev": {
-    "orchestra/testbench": "^4.0"
-  },
-  "autoload": {
-    "files": [
-      "helpers/helpers.php"
+    "name": "mehradsadeghi/laravel-filter-querystring",
+    "description": "Filter your queries based on url query string parameters like a breeze.",
+    "keywords": [
+        "query",
+        "query-string",
+        "querystring",
+        "filter",
+        "filter-querystring",
+        "filter-query-string"
     ],
-    "psr-4": {
-      "Mehradsadeghi\\FilterQueryString\\": "src/"
-    }
-  },
-  "autoload-dev": {
-    "classmap": [
-      "database"
+    "homepage": "https://github.com/mehradsadeghi/laravel-filter-querystring",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Mehrad Sadeghi",
+            "email": "mehrad177@gmail.com",
+            "role": "Developer"
+        }
     ],
-    "psr-4": {
-      "Mehradsadeghi\\FilterQueryString\\Models\\": "models/",
-      "Mehradsadeghi\\FilterQueryString\\Tests\\": "tests/"
+    "require": {
+        "php": "^7.1|^8.0",
+        "laravel/framework": "5.*|6.*|7.*|8.*|9.*|10.*|11.*|12.*|^13.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^4.0|^11.0"
+    },
+    "autoload": {
+        "files": [
+            "helpers/helpers.php"
+        ],
+        "psr-4": {
+            "Mehradsadeghi\\FilterQueryString\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "classmap": [
+            "database"
+        ],
+        "psr-4": {
+            "Mehradsadeghi\\FilterQueryString\\Models\\": "models/",
+            "Mehradsadeghi\\FilterQueryString\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
     }
-  },
-  "scripts": {
-    "test": "vendor/bin/phpunit",
-    "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
-  }
 }
